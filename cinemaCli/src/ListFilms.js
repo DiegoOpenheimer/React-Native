@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, ImageBackground, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ImageBackground, Image, ScrollView, ToastAndroid, StatusBar } from 'react-native'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { NavigationActions } from 'react-navigation'
 
 export default class ListFilms extends Component {
     static navigationOptions = {
@@ -32,11 +33,20 @@ export default class ListFilms extends Component {
                 s.loading = false
                 this.setState(s)
             })
+            .catch( err => {
+                this.props.navigation.dispatch(NavigationActions.reset({
+                    index:0,
+                    actions:[
+                        NavigationActions.navigate({routeName:'Home'})
+                    ]
+                }))
+                ToastAndroid.show('Erro com conexão', ToastAndroid.LONG)
+            })
     }
     render() {
-       if(!this.state.loading){
-           return(
-                <View style={styles.container}>
+        return(
+               <View style={styles.container}>
+               <StatusBar backgroundColor="#D33C3C"/>
                     <ImageBackground source={require('../assets/images/popcorn-1085072_1920.jpg')} style={styles.img}>
                     <Spinner visible={this.state.loading} />
                     <FlatList 
@@ -47,15 +57,7 @@ export default class ListFilms extends Component {
                     </ImageBackground>
                 </View>
             )
-       } else {
-        return(
-            <View style={styles.container}>
-                <ImageBackground source={require('../assets/images/popcorn-1085072_1920.jpg')} style={styles.img}>
-                <Spinner visible={this.state.loading} />
-                </ImageBackground>
-            </View>
-        )
-       }
+    
     }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet,ImageBackground, TouchableOpacity  } from 'react-native'
+import { View, Text, StyleSheet,ImageBackground, TouchableOpacity, StatusBar  } from 'react-native'
 
 export default class Home extends Component {
     static navigationOptions = {
@@ -18,6 +18,7 @@ export default class Home extends Component {
     render() {
         return(
             <View style={styles.container}>
+            <StatusBar backgroundColor="#D33C3C"/>
                 <ImageBackground source={require('../assets/images/popcorn-1085072_1280.jpg')} style={styles.imageBackground}>
                     <Text style={[styles.title, styles.positionTitle]}>Filmes que estão no cinema</Text>
                     <Text style={styles.title}>Vamos conferir os lançamentos</Text>
