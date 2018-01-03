@@ -1,0 +1,3 @@
+rootProject.name = 'fluxoCaixa'
+
+include ':app'
