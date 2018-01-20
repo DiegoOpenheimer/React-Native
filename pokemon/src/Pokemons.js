@@ -68,7 +68,7 @@ export default class Pokemon extends Component {
      searchPokemon(text) {
         this.setState({controller: false})
         if(text.trim() !== '') {
-            let listPokemon = this.state.pokemons.filter( content => content.name.includes(text))
+            let listPokemon = this.state.pokemons.filter( content => content.name.includes(text.toLowerCase()))
             this.setState({screenPokemons: listPokemon})
         } else {
             this.setState({controller: true})

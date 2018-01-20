@@ -68,7 +68,7 @@ export default class Pokemon extends Component {
      searchItem(text) {
         this.setState({controller: false})
         if(text.trim() !== '') {
-            let listItem = this.state.items.filter( content => content.name.includes(text))
+            let listItem = this.state.items.filter( content => content.name.includes(text.toLowerCase()))
             this.setState({screenItem: listItem})
         } else {
             this.setState({controller: true})
