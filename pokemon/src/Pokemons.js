@@ -20,7 +20,7 @@ export default class Pokemon extends Component {
             marginRight: 20
         },
         headerRight:
-            <TouchableOpacity onPress={() => {
+            (<TouchableOpacity onPress={() => {
                firebase.auth().signOut().then(() =>{
                 navigation.dispatch(NavigationActions.reset({
                     index: 0,
@@ -34,7 +34,7 @@ export default class Pokemon extends Component {
                 <View style={{width: 150, justifyContent: 'center', alignItems: 'flex-end', right: 10}}>
                     <Text style={{color: '#FFF', fontSize: 22}}>Sair</Text>
                 </View>
-            </TouchableOpacity>,
+            </TouchableOpacity>),
         tabBarLabel: 'Pokemon'
     })
 
@@ -143,7 +143,7 @@ export default class Pokemon extends Component {
                 <FlatList 
                     ref="flatList"
                     data={this.state.screenPokemons}
-                    renderItem={({item}) => <EachPokemon data={item} />}
+                    renderItem={({item}) => <EachPokemon data={item}/>}
                     keyExtractor={(item, index) => index}
                     numColumns={2}
                     onEndReachedThreshold={0.1}
@@ -191,7 +191,7 @@ class EachPokemon extends Component {
             <TouchableOpacity onPress={this.showPokemon} style={styles.container}>
             <Spinner visible={this.state.loading} cancelable={true} />
                 <View style={styles.pokemon}>
-                    <Image resizeMode="contain" source={require("../assets/img/pokeball.png")} />
+                    <Image style={{width: 100, height:100}} resizeMode="contain" source={{uri:`https://pokeapi.co/media/img/${this.props.data.url.match(/\d+/g)[1]}.png`}} />
                     <View style={{flex:1, justifyContent:'center', alignItems:'center', right:5}}>
                         <Text style={styles.namePokemon}>{this.props.data.name}</Text>
                     </View>

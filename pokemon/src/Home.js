@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {
-    View,
     Text,
     ImageBackground,
     TextInput,
@@ -18,6 +17,7 @@ import {
 import {Icon} from 'react-native-elements'
 import {NavigationActions} from 'react-navigation'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { View } from 'react-native-animatable'
 import firebase from '../FirebaseConnection'
 import FIREBASE_CODE_ERRORS from '../FirebaseUtil'
 
@@ -41,7 +41,7 @@ export default class Home extends Component {
         return (
             <ImageBackground source={require('../assets/img/PlanoFundo.jpg')} style={styles.container}>
                 <StatusBar backgroundColor="#4000FF"/>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <View useNativeDriver={true} duration={3000} delay={500} animation="zoomInDown" style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <Image style={styles.image} resizeMode="contain"
                            source={require('../assets/img/pokemonTitle.png')}/>
                 </View>
