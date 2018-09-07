@@ -2,6 +2,7 @@ import React from 'react'
 import { createStackNavigator } from 'react-navigation'
 import { Provider } from 'react-redux'
 
+
 import Preload from './src/views/Preload'
 import Login from './src/views/Login'
 import Home from './src/views/Home'
@@ -30,9 +31,9 @@ const Navigator = createStackNavigator({
 export default class App extends React.Component {
   render() {
     return(
-        <Provider store={store}>
-            <Navigator />
-        </Provider>
+      <Provider store={store}>
+          <Navigator />
+      </Provider>
     )
   }
 }

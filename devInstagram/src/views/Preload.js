@@ -5,7 +5,7 @@ import { StackActions, NavigationActions } from 'react-navigation'
 
 class Preload extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         switch (this.props.status) {
             case 1:
                 this.changeView('Home')
