@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import Preload from './src/views/Preload'
 import Login from './src/views/Login'
 import Home from './src/views/Home'
+import NewAccount from './src/views/NewAccount'
 
 import store from './src/reducers/index'
 
@@ -19,6 +20,12 @@ const Navigator = createStackNavigator({
   },
   Login: {
     screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  },
+  NewAccount: {
+    screen: NewAccount,
     navigationOptions: {
       header: null
     }
