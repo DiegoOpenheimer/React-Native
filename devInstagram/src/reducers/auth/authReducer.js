@@ -1,8 +1,7 @@
-
 const INITIAL_STATE = {
     email: '',
     password: '',
-    status: 0,
+    status: null,
     jwt: ''
 }
 

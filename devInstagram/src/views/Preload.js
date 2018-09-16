@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, ImageBackground } from 'react-native'
+import { Text, StyleSheet, ImageBackground, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { StackActions, NavigationActions } from 'react-navigation'
 import LOGO from '../assets/bg.jpg'
 
+import { checkLogin } from '../actions/auth'
+
 class Preload extends Component {
 
-    componentDidMount() {
+    constructor(props) {
+        super(props)
+        this.props.checkLogin()
+    }
+
+    componentDidUpdate() {
         switch (this.props.status) {
             case 1:
-                this.changeView('Home')
+                this.changeView('Tabs')
                 break
             default:
                 this.changeView('Login')
@@ -46,4 +53,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Preload)
+export default connect(mapStateToProps, { checkLogin })(Preload)

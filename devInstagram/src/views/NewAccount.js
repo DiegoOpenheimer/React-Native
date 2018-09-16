@@ -104,7 +104,7 @@ class NewAccount extends React.Component {
     goHome = () => {
         const stackActions = StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName:'Home'})]
+            actions: [NavigationActions.navigate({routeName:'Tabs'})]
         })
         this.props.navigation.dispatch(stackActions)
     }
