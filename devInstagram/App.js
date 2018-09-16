@@ -12,12 +12,13 @@ import store from './src/reducers/index'
 
 import Reactotron, { networking } from 'reactotron-react-native'
 
-Reactotron
+if (__DEV__) {
+  Reactotron
   .configure({host: '192.168.56.1'})
   .useReactNative(networking())
   .connect()
-console.tron = Reactotron  
-
+  console.tron = Reactotron  
+}
 
 const Navigator = createStackNavigator({
   Preload: {
