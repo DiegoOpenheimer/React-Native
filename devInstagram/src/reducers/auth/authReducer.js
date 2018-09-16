@@ -1,13 +1,16 @@
+
 const INITIAL_STATE = {
     email: '',
     password: '',
-    status: 0
+    status: 0,
+    jwt: ''
 }
 
-const TYPES = {
+export const TYPES = {
     UPDATE_EMAIL: 'updateEmail',
     UPDATE_PASSWORD: 'updatePassword',
-    CHANGE_STATUS: 'changeStatus'
+    CHANGE_STATUS: 'changeStatus',
+    UPDATE_JWT:   'updateJwt'
 }
 
 const auth = (state = INITIAL_STATE, action) => {
@@ -18,6 +21,8 @@ const auth = (state = INITIAL_STATE, action) => {
             return { ...state, password: action.payload.password }
         case TYPES.CHANGE_STATUS:
             return { ...state, status: action.payload.status }
+        case TYPES.UPDATE_JWT:
+            return { ...state, jwt: action.payload.jwt }
         default:
             return state
     }

@@ -10,6 +10,14 @@ import NewAccount from './src/views/NewAccount'
 
 import store from './src/reducers/index'
 
+import Reactotron, { networking } from 'reactotron-react-native'
+
+Reactotron
+  .configure({host: '192.168.56.1'})
+  .useReactNative(networking())
+  .connect()
+console.tron = Reactotron  
+
 
 const Navigator = createStackNavigator({
   Preload: {

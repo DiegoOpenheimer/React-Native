@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, ImageBackground } from 'react-native'
 import { connect } from 'react-redux'
 import { StackActions, NavigationActions } from 'react-navigation'
+import LOGO from '../assets/bg.jpg'
 
 class Preload extends Component {
 
@@ -24,9 +25,9 @@ class Preload extends Component {
 
     render() {
         return(
-            <View style={style.container}>
-                <Text>Preload {JSON.stringify(this.props)}</Text>
-            </View>
+            <ImageBackground style={style.container} source={LOGO}>
+                <Text>Preload</Text>
+            </ImageBackground>
         )
     }
 }
