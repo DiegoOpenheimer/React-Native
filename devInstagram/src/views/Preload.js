@@ -10,17 +10,7 @@ class Preload extends Component {
 
     constructor(props) {
         super(props)
-        this.props.checkLogin()
-    }
-
-    componentDidUpdate() {
-        switch (this.props.status) {
-            case 1:
-                this.changeView('Tabs')
-                break
-            default:
-                this.changeView('Login')
-        }
+        this.props.checkLogin(this.changeView)
     }
 
     changeView = (view) => {

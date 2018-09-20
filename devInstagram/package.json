@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "react": "16.3.1",
-    "react-native": "0.55.4",
+    "react": "16.5.0",
+    "react-native": "0.57.0",
     "react-native-android-keyboard-adjust": "^1.1.1",
     "react-native-loading-spinner-overlay": "^0.5.2",
     "react-navigation": "^2.11.2",
@@ -18,9 +18,11 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/plugin-external-helpers": "^7.0.0",
     "babel-jest": "23.4.2",
     "babel-preset-react-native": "4.0.0",
     "jest": "23.5.0",
+    "metro-react-native-babel-preset": "^0.45.4",
     "react-test-renderer": "16.3.1",
     "reactotron-react-native": "^2.1.0"
   },

@@ -22,15 +22,21 @@ export function loginSuccess(status, jwt) {
     }
 }
 
-export function checkLogin() {
+export function checkLogin(callback) {
     return function(dispatch) {
         AsyncStorage.getItem('jwt')
         .then(jwt => {
             if (jwt) {
                 dispatch(updateJwt(jwt))
                 dispatch(updateStatus(1))
+                if (callback) {
+                    callback('Tabs')
+                }
             } else {
                 dispatch(updateStatus(0))
+                if (callback) {
+                    callback('Login')
+                }
             }
         })
         .catch(error => {
