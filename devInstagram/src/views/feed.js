@@ -32,7 +32,7 @@ export default class Feed extends React.Component {
                     <FlatList
                         data={this.state.feedFake}
                         keyExtractor={(item) => item.id}
-                        renderItem={({item}) => <FeedItem item={item}/>}
+                        renderItem={({item}) => <FeedItem item={item} navigation={this.props.navigation}/>}
                      />
                 }
             </View>

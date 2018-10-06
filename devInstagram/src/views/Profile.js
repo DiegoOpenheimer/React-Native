@@ -1,8 +1,23 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, StatusBar } from 'react-native'
 
 
 export default class Profile extends React.Component {
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'Profile',
+            headerStyle: {
+                backgroundColor: '#4da2d8',
+                height: 56 + StatusBar.currentHeight,
+                paddingTop: StatusBar.currentHeight
+            },
+            headerTitleStyle: {
+                color: '#FFF',
+            }
+        }
+    }
+
     render() {
         return(
             <View style={styles.container}>
