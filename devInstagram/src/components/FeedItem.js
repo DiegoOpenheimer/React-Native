@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, TouchableNativeFeedback } from 'react-native'
+import { View, StyleSheet, Text, Image, TouchableNativeFeedback, TouchableWithoutFeedback } from 'react-native'
 import ImageProgress from 'react-native-image-progress';
 import ProgressPie from 'react-native-progress/Pie';
 
@@ -8,7 +8,7 @@ const goScreen = (navigation, screen) => {
 } 
 
 const FeedItem = props => {
-    console.tron.log(props)
+
     return (
         <View style={styles.feedContainer}>
             <View style={styles.feedHeader}>
@@ -20,12 +20,14 @@ const FeedItem = props => {
                 </View>
             </View>
             <View style={styles.feedBody}>
-                <ImageProgress indicator={ProgressPie} indicatorProps={{
-                    size: 80,
-                    borderWidth: 0,
-                    color: 'rgba(150, 150, 150, 1)',
-                    unfilledColor: 'rgba(200, 200, 200, 0.2)'
-                }} resizeMode={"cover"} style={{flex: 1}} source={{uri: props.item.url}} />
+                <TouchableWithoutFeedback onPress={props.pressImage}>
+                    <ImageProgress indicator={ProgressPie} indicatorProps={{
+                        size: 80,
+                        borderWidth: 0,
+                        color: 'rgba(150, 150, 150, 1)',
+                        unfilledColor: 'rgba(200, 200, 200, 0.2)'
+                    }} resizeMode={"cover"} style={{flex: 1}} source={{uri: props.item.url}} />
+                </TouchableWithoutFeedback>
             </View>
             <View style={styles.areaComments}>
             <View style={styles.comments}>
@@ -58,7 +60,7 @@ const FeedItem = props => {
 
 const styles = StyleSheet.create({
     feedContainer: {
-        height: 300,
+        height: 420,
         width: '100%',
         elevation: 5,
         marginBottom: 10,

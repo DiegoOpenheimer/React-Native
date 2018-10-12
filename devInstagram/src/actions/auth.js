@@ -44,3 +44,10 @@ export function checkLogin(callback) {
         })
     }
 }
+
+export function logout() {
+    return function(dispatch) {
+        AsyncStorage.removeItem('jwt')
+        .then(() => dispatch(updateStatus(0)))
+    }
+}

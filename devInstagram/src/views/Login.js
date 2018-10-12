@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, ImageBackground, StatusBar, TextInput, TouchableNativeFeedback, Alert, ToastAndroid, AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground, StatusBar, TextInput, TouchableNativeFeedback, Alert, ToastAndroid, AsyncStorage } from 'react-native'
 import { NavigationActions, StackActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -80,19 +80,21 @@ class Login extends React.Component {
 
     render() {
         return(
-            <ImageBackground source={imageBackground} style={style.container}>
-            <Spinner visible={this.state.showLoading} size="large" />
-            <StatusBar animated={true} translucent={true} backgroundColor="rgba(0,0,0,.3)" />
-                <Text style={style.title}>DevInstagram</Text>
-                <TextInput value={this.state.email} onChangeText={this.handlerState('email')} { ...configInputEmail } style={style.input}/>
-                <TextInput value={this.state.pass} onChangeText={this.handlerState('pass')} { ...configInputPassword } style={style.input} />
-                <TouchableNativeFeedback onPress={this.validationUser}>
-                    <View style={style.signButton}>
-                        <Text style={style.textBtn}>Fazer login</Text>
-                    </View>
-                </TouchableNativeFeedback>
-                <Text style={style.textRegisterAccount}>Ainda não tem cadastro? <Text onPress={this.goRegisterAccount} style={style.addUnderline}>Clique Aqui</Text></Text>
-            </ImageBackground>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+             <ImageBackground source={imageBackground} style={style.container}>
+                    <Spinner visible={this.state.showLoading} size="large" />
+                    <StatusBar animated={true} translucent={true} backgroundColor="rgba(0,0,0,.3)" />
+                        <Text style={style.title}>DevInstagram</Text>
+                        <TextInput value={this.state.email} onChangeText={this.handlerState('email')} { ...configInputEmail } style={style.input}/>
+                        <TextInput value={this.state.pass} onChangeText={this.handlerState('pass')} { ...configInputPassword } style={style.input} />
+                        <TouchableNativeFeedback onPress={this.validationUser}>
+                            <View style={style.signButton}>
+                                <Text style={style.textBtn}>Fazer login</Text>
+                            </View>
+                        </TouchableNativeFeedback>
+                        <Text style={style.textRegisterAccount}>Ainda não tem cadastro? <Text onPress={this.goRegisterAccount} style={style.addUnderline}>Clique Aqui</Text></Text>
+             </ImageBackground>
+            </TouchableWithoutFeedback>
         )
     }
 }

@@ -1,12 +1,43 @@
 import React from 'react'
-import { View, Text, StyleSheet, StatusBar, ScrollView, FlatList } from 'react-native'
+import { View, StyleSheet, StatusBar, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native'
+import Menu, { MenuItem } from 'react-native-material-menu';
+import { Toolbar } from 'react-native-material-ui';
+import { connect } from 'react-redux'
+import { StackActions, NavigationActions } from 'react-navigation'
+
+import { logout } from '../actions/auth'
 import FakeFeed from '../components/FakeFeed'
 import FeedItem from '../components/FeedItem'
+import ICON_MENU from '../assets/icon-menu.png'
 
-export default class Feed extends React.Component {
+
+const styleToolbar = {
+    container: {
+        backgroundColor: '#4da2d8',
+        paddingTop: StatusBar.currentHeight,
+        height: 50+StatusBar.currentHeight
+    },
+    centerElementContainer: {
+        alignItems: 'center'
+    }
+}
+
+class Feed extends React.Component {
 
     state = {
-        feedFake: new Array()
+        feedFake: new Array(),
+        imageClickCount: 0
+    }
+
+    pressButtomImage = () => {
+        const { imageClickCount } = this.state
+        const result = imageClickCount + 1
+        if ( imageClickCount < 1 ) {
+            this.setState({imageClickCount: result})
+            setTimeout(() => this.setState({imageClickCount: 0}), 500)
+        } else {
+            alert('liked')
+        }
     }
 
     componentDidMount() {
@@ -15,10 +46,48 @@ export default class Feed extends React.Component {
         }, 1000)
     }
 
+    hideMenu = () => {
+        this.menu.hide()
+        this.props.logout()
+        this.resetNavigation()
+    }
+
+    showMenu = () => {
+        this.menu.show()
+    }
+
+    resetNavigation = () => {
+        const stackAction = StackActions.reset({
+            index: 0,
+            key: null,
+            actions: [NavigationActions.navigate({routeName: 'Login'})]
+        })
+        this.props.navigation.dispatch(stackAction)
+    }
+
     render() {
         return(
             <View style={styles.container}>
                 <StatusBar translucent={true} backgroundColor="rgba(0, 0, 0, .4)" />
+                <Toolbar
+                    style={styleToolbar}
+                    centerElement="Feed"
+                    rightElement={
+      
+                    <Menu
+                    ref={r => this.menu = r}
+                    button={<TouchableOpacity onPress={this.showMenu}>
+                        <View style={{width: 35, height: '100%', justifyContent:'center', alignItems: 'center'}}>
+                            <Image source={ICON_MENU} style={{width:20, height:20}}  />
+                        </View>
+                    </TouchableOpacity>}
+                    >
+                        <MenuItem onPress={this.hideMenu}>Sair</MenuItem>
+                    </Menu>
+                    
+                    }
+                    onRightElementPress={ (label) => { console.log(label) }}
+                />
                 {
                     !this.state.feedFake.length &&
                     <ScrollView showsVerticalScrollIndicator={false}>
@@ -32,7 +101,7 @@ export default class Feed extends React.Component {
                     <FlatList
                         data={this.state.feedFake}
                         keyExtractor={(item) => item.id}
-                        renderItem={({item}) => <FeedItem item={item} navigation={this.props.navigation}/>}
+                        renderItem={({item}) => <FeedItem item={item} pressImage={this.pressButtomImage} navigation={this.props.navigation}/>}
                      />
                 }
             </View>
@@ -47,3 +116,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     }
 })
+
+export default connect(() => ({}), { logout })(Feed)

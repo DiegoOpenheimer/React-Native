@@ -14,7 +14,8 @@ export default class Profile extends React.Component {
             },
             headerTitleStyle: {
                 color: '#FFF',
-            }
+            },
+            headerTintColor: '#FFF',
         }
     }
 
