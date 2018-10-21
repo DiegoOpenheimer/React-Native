@@ -9,7 +9,10 @@ export default class Interna extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Welcome',
         headerStyle: {
-            backgroundColor: '#4000FF'
+            backgroundColor: '#4000FF',
+            height: StatusBar.currentHeight + 56,
+            paddingTop: StatusBar.currentHeight,
+            elevation: 0
         },
         headerTitleStyle: {
             color: '#FFF',
@@ -47,7 +50,7 @@ export default class Interna extends Component {
     render() {
         return (
             <ImageBackground style={styles.container} source={require('../assets/img/PlanoFundo.jpg')}>
-                <StatusBar hidden={true}/>
+                <StatusBar translucent={true} backgroundColor={"rgba(0,0,0,.2)"}/>
                 <Card
                     image={require("../assets/img/pokemonTitle.png")}
                     imageProps={{resizeMode: 'contain'}}

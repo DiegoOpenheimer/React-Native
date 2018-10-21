@@ -12,9 +12,10 @@ import {
     Alert,
     ToastAndroid,
     ActivityIndicator,
-    KeyboardAvoidingView
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native'
-import {Icon} from 'react-native-elements'
+import { Icon, SocialIcon } from 'react-native-elements'
 import {NavigationActions} from 'react-navigation'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { View } from 'react-native-animatable'
@@ -32,22 +33,24 @@ export default class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cadastro: false
-        }
+            cadastro: false,
+         }
 
     }
 
     render() {
         return (
-            <ImageBackground source={require('../assets/img/PlanoFundo.jpg')} style={styles.container}>
-                <StatusBar backgroundColor="#4000FF"/>
-                <View useNativeDriver={true} duration={3000} delay={500} animation="zoomInDown" style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={styles.image} resizeMode="contain"
-                           source={require('../assets/img/pokemonTitle.png')}/>
-                </View>
-                {this.state.cadastro ? <Cadastrar goLogin={() => this.setState({cadastro: false})}/> :
-                    <Login navigation={this.props.navigation} goCadastro={() => this.setState({cadastro: true})}/>}
-            </ImageBackground>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+                <ImageBackground source={require('../assets/img/PlanoFundo.jpg')} style={styles.container}>
+                    <StatusBar backgroundColor="#4000FF"/>
+                    <View useNativeDriver={true} duration={3000} delay={500} animation="zoomInDown" style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image style={styles.image} resizeMode="contain"
+                            source={require('../assets/img/pokemonTitle.png')}/>
+                    </View>
+                    {this.state.cadastro ? <Cadastrar goLogin={() => this.setState({cadastro: false})}/> :
+                        <Login navigation={this.props.navigation} goCadastro={() => this.setState({cadastro: true})}/>}
+                </ImageBackground>
+            </TouchableWithoutFeedback>
         )
     }
 }
@@ -80,6 +83,7 @@ class Login extends Component {
                     ]
                 }))
             }).catch( err => {
+                this.setState({loading: false})
                 switch(err.code) {
                     case FIREBASE_CODE_ERRORS.INVALID_EMAIL:
                         Alert.alert('Atenção', 'Email inválido')
@@ -88,7 +92,7 @@ class Login extends Component {
                         Alert.alert('Atenção', 'Operação não permitida')
                         break
                     default:
-                        Alert.alert('Atenção', 'Error ao realizar login')
+                        Alert.alert('Atenção', 'Erro ao realizar login')
                         break
                 }
             })
@@ -103,7 +107,7 @@ class Login extends Component {
             <View style={styles.form}>
         
                 <Spinner visible={this.state.loading} cancelable={true}/>
-                <View style={styles.contentInput}>
+                <View style={styles.contentInputLogin}>
                     <TextInput  value={this.state.email} onChangeText={email => this.setState({email: email})} selectionColor="#4000FF"
                                placeholderTextColor="#FFF"
                                underlineColorAndroid="transparent" style={styles.input}
@@ -215,20 +219,17 @@ class Cadastrar extends Component {
             }
         } catch ({code, message}) {
             Alert.alert("Erro ao abrir API datePicker")
-            console.warn(message)
         }
     }
 
 
     render() {
         return (
-            <View style={[styles.form, {bottom: this.state.bottom}]}>
-                <View style={styles.contentInput}>
-
-                    <Icon underlayColor="rgba(0,0,0,.1)" iconStyle={{fontSize: 45, marginLeft: 10}} color="#FFF"
-                          name="chevron-left" onPress={this.props.goLogin}
-                          containerStyle={{bottom: 50, alignItems: 'flex-start', borderRadius: 20, width: 100}}/>
-
+            <View style={styles.form}>
+            <Icon underlayColor="rgba(0,0,0,.1)" iconStyle={{fontSize: 45, marginLeft: 10}} color="#FFF"
+                  name="chevron-left" onPress={this.props.goLogin}
+                  containerStyle={{bottom: 50, alignItems: 'flex-start', borderRadius: 20, width: 100}}/>
+                <View animation="flipInY" style={styles.contentInput}>
                     <TextInput onChangeText={email => this.setState({email: email})} maxLength={50}
                                selectionColor="#4000FF" placeholderTextColor="#FFF"
                                underlineColorAndroid="transparent" style={styles.input}
@@ -289,7 +290,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'stretch',
         marginLeft: 20,
-        marginRight: 20
+        marginRight: 20,
+        bottom: 50
     },
     input: {
         backgroundColor: 'rgba(0,0,0,.3)',
@@ -297,21 +299,20 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         color: '#FFF',
         margin: 5,
-        bottom: 50
-    },
+      },
     inputTouchable: {
         backgroundColor: 'rgba(0,0,0,.3)',
-        padding: 10,
+        paddingTop: 15,
+        paddingBottom:15,
+        paddingLeft: 10,
         borderRadius: 30,
         margin: 5,
-        bottom: 50
     },
     buttons: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'flex-start',
-        bottom: 30
     },
     btn: {
         color: '#4000ff',
@@ -322,6 +323,18 @@ const styles = StyleSheet.create({
         color: 'red',
         bottom: 50,
         marginLeft: 15
+    },
+    contentInputLogin: {
+        flex: 1,
+        alignItems: 'stretch',
+        marginLeft: 20,
+        marginRight: 20,
+        bottom: 10
+    },
+    buttonsSocial: {
+        flex:4,
+        justifyContent:'center',
+        alignItems:'stretch'
     }
 })
 

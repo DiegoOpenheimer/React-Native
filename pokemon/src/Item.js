@@ -13,7 +13,10 @@ export default class Pokemon extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Items',
         headerStyle: {
-            backgroundColor: '#4000FF'
+            backgroundColor: '#4000FF',
+            height: StatusBar.currentHeight + 56,
+            paddingTop: StatusBar.currentHeight,
+            elevation: 0
         },
         headerTitleStyle: {
             color: '#FFF',
@@ -58,6 +61,10 @@ export default class Pokemon extends Component {
         this.moreItems = this.moreItems.bind(this)
         this.searchItem = this.searchItem.bind(this)
         this.updateState = this.updateState.bind(this)
+     }
+
+     componentDidMount() {
+         this.moreItems()
      }
 
      updateState() {
@@ -118,7 +125,7 @@ export default class Pokemon extends Component {
     render() {
         return(
             <ImageBackground source={require('../assets/img/PlanoFundo.jpg')} style={styles.container}>
-                <StatusBar hidden={true} />
+                <StatusBar translucent={true} backgroundColor={"rgba(0,0,0,.2)"} />
                 <SearchBar
                 placeholder="Buscar item"
                 selectionColor="#4000FF"
@@ -159,7 +166,7 @@ export default class Pokemon extends Component {
 
 }
 
-class EachItem extends Component {
+class EachItem extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -178,7 +185,6 @@ class EachItem extends Component {
     showItem() {
         this.setState({loading: true})
         this.poke.getItemByName(this.props.data.name).then( data => {
-            console.log(data.effect, data.short_effect, data)
             this.setState({loading: false, modal:true, infoItem:data})
         }).catch( err => {
             this.setState({loading: false})
@@ -191,7 +197,7 @@ class EachItem extends Component {
             <TouchableOpacity onPress={this.showItem} style={styles.container}>
             <Spinner visible={this.state.loading} cancelable={true} />
                 <View style={styles.pokemon}>
-                    <Image resizeMode="contain" source={require("../assets/img/pokeball.png")} />
+                    <Image resizeMode="contain" style={{width:50, height:50}} source={{uri: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/' + this.props.data.name + '.png'}} />
                     <View style={{flex:1, justifyContent:'center', alignItems:'center', right:5}}>
                         <Text style={styles.namePokemon}>{this.props.data.name}</Text>
                     </View>
@@ -203,7 +209,8 @@ class EachItem extends Component {
                     animationIn="zoomInDown"
                     animationOut="zoomOutUp"
                  >
-                {
+                    <View>
+                    {
                     this.state.infoItem.name &&
                     <ScrollView>
                     <Card
@@ -229,7 +236,7 @@ class EachItem extends Component {
                               {
                                   this.state.infoItem.effect_entries.map( content => {
                                       return(
-                                        <Text>  {'\u2022'}  {content.short_effect}</Text>
+                                        <Text key={content.short_effect}>  {'\u2022'}  {content.short_effect}</Text>
                                       )
                                   })
                               }       
@@ -238,7 +245,7 @@ class EachItem extends Component {
                             {
                                 this.state.infoItem.effect_entries.map( content => {
                                     return(
-                                        <Text>  {'\u2022'}  {content.effect}</Text>
+                                        <Text key={content.effect}>  {'\u2022'}  {content.effect}</Text>
                                     )
                                 })
                             }
@@ -247,6 +254,7 @@ class EachItem extends Component {
                         </Card>
                         </ScrollView>
                 }
+                    </View>
                  </Modal>
             </TouchableOpacity>
         )

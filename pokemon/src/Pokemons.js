@@ -13,14 +13,17 @@ export default class Pokemon extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Pokemon',
         headerStyle: {
-            backgroundColor: '#4000FF'
+            backgroundColor: '#4000FF',
+            height: StatusBar.currentHeight + 56,
+            paddingTop: StatusBar.currentHeight,
+            elevation: 0
         },
         headerTitleStyle: {
             color: '#FFF',
             marginRight: 20
         },
         headerRight:
-            (<TouchableOpacity onPress={() => {
+            <TouchableOpacity onPress={() => {
                firebase.auth().signOut().then(() =>{
                 navigation.dispatch(NavigationActions.reset({
                     index: 0,
@@ -34,7 +37,7 @@ export default class Pokemon extends Component {
                 <View style={{width: 150, justifyContent: 'center', alignItems: 'flex-end', right: 10}}>
                     <Text style={{color: '#FFF', fontSize: 22}}>Sair</Text>
                 </View>
-            </TouchableOpacity>),
+            </TouchableOpacity>,
         tabBarLabel: 'Pokemon'
     })
 
@@ -58,6 +61,10 @@ export default class Pokemon extends Component {
         this.morePokemons = this.morePokemons.bind(this)
         this.searchPokemon = this.searchPokemon.bind(this)
         this.updateState = this.updateState.bind(this)
+     }
+
+     componentDidMount() {
+         this.morePokemons()
      }
 
      updateState() {
@@ -119,7 +126,7 @@ export default class Pokemon extends Component {
     render() {
         return(
             <ImageBackground source={require('../assets/img/PlanoFundo.jpg')} style={styles.container}>
-                <StatusBar hidden={true} />
+                <StatusBar translucent={true} backgroundColor={"rgba(0,0,0,.2)"} />
                 <SearchBar
                     placeholder="Buscar pokemon"
                     selectionColor="#4000FF"
@@ -143,7 +150,7 @@ export default class Pokemon extends Component {
                 <FlatList 
                     ref="flatList"
                     data={this.state.screenPokemons}
-                    renderItem={({item}) => <EachPokemon data={item}/>}
+                    renderItem={({item}) => <EachPokemon data={item} />}
                     keyExtractor={(item, index) => index}
                     numColumns={2}
                     onEndReachedThreshold={0.1}
@@ -160,7 +167,7 @@ export default class Pokemon extends Component {
 
 }
 
-class EachPokemon extends Component {
+class EachPokemon extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -191,7 +198,7 @@ class EachPokemon extends Component {
             <TouchableOpacity onPress={this.showPokemon} style={styles.container}>
             <Spinner visible={this.state.loading} cancelable={true} />
                 <View style={styles.pokemon}>
-                    <Image style={{width: 100, height:100}} resizeMode="contain" source={{uri:`https://pokeapi.co/media/img/${this.props.data.url.match(/\d+/g)[1]}.png`}} />
+                    <Image style={{width: 100, height: 100}} resizeMode="contain" source={{uri:'http://pokeapi.co/media/sprites/pokemon/'+this.props.data.url.match(/\d+/g)[1]+'.png'}} />
                     <View style={{flex:1, justifyContent:'center', alignItems:'center', right:5}}>
                         <Text style={styles.namePokemon}>{this.props.data.name}</Text>
                     </View>
@@ -202,9 +209,11 @@ class EachPokemon extends Component {
                     onBackButtonPress={() => this.setState({modal: false})}
                     animationIn="zoomInDown"
                     animationOut="zoomOutUp"
+                    onSwipe={() => this.setState({modal: false})}
                  >
-                {
-                    this.state.infoPokemon.name &&
+                    <View>
+                    {
+                    this.state.infoPokemon.name != null &&
                     <ScrollView>
                     <Card
                         titleStyle={{color: '#4000ff', fontSize: 20}}
@@ -215,7 +224,7 @@ class EachPokemon extends Component {
                         <Avatar
                             xlarge
                             rounded
-                            source={{uri: this.state.infoPokemon.sprites.back_default}}
+                            source={{uri: this.state.infoPokemon.sprites.front_default}}
                             activeOpacity={0.2}
                             />
                         <View style={{marginRight: 10, marginTop:10}}>
@@ -231,7 +240,7 @@ class EachPokemon extends Component {
                         {
                             this.state.infoPokemon.abilities.map( a => {
                                 return(
-                                    <Text h4 >{'\u2022'}  {a.ability.name}</Text>
+                                    <Text h4 key={a.ability.name} >{'\u2022'}  {a.ability.name}</Text>
                                 )
                             })
                         }
@@ -242,7 +251,7 @@ class EachPokemon extends Component {
                         {
                             this.state.infoPokemon.stats.map( s => {
                                 return(
-                                    <Text h4 >{'\u2022'}  {s.stat.name}</Text>
+                                    <Text h4 key={s.stat.name} >{'\u2022'}  {s.stat.name}</Text>
                                 )
                             })
                         }   
@@ -250,6 +259,7 @@ class EachPokemon extends Component {
                         </Card>
                         </ScrollView>
                 }
+                    </View>
                  </Modal>
             </TouchableOpacity>
         )
