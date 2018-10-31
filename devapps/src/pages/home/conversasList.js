@@ -1,19 +1,20 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
-import { getTalks, createChat } from '../../actions/chatAction'
+import { getTalks, createChat, toogleLoadingController } from '../../actions/chatAction'
 
 import RenderConversas from '../components/listConversas'
 
 export class ConversasList extends React.Component {
     static navigationOptions = {
         header:null,
-        tabBarLabel:'Conversas'
+        tabBarLabel:'Conversas',
     }
 
     constructor(props) {
         super(props)
         this.props.getTalks(this.props.uid)
+        this.props.chats.length === 0 && this.props.toogleLoadingController( true )       
     }
 
     componentDidUpdate() {
@@ -33,6 +34,10 @@ export class ConversasList extends React.Component {
     render(){
         return(
             <View style={styles.container}>
+            {
+                this.props.loading &&
+                <ActivityIndicator size="large" color="#00ff00" />
+            }
                 <FlatList
                   data={this.props.chats}
                   renderItem={({item})=><RenderConversas data={item} onPress={this.goConversa.bind(this, item)} />}
@@ -53,8 +58,9 @@ const mapStateToProps = state => {
     return {
         chats: state.chatReducer.chats,
         activeChat: state.chatReducer.activeChat,
-        uid: state.auth.uid
+        uid: state.auth.uid,
+        loading:state.chatReducer.loadingController
     }
 }
 
-export default connect(mapStateToProps, { getTalks, createChat })(ConversasList)
+export default connect(mapStateToProps, { getTalks, createChat, toogleLoadingController })(ConversasList)

@@ -2,7 +2,8 @@ const initialState = {
     contacts:[],
     chats:[],
     activeChat: '',
-    messages:[]
+    messages:[],
+    loadingController: false
 }
 
 export const chatReducer = (state = initialState, action) => {
@@ -18,6 +19,9 @@ export const chatReducer = (state = initialState, action) => {
             break
         case 'getMessages':
             return {...state, messages:action.payload.msgs}
+            break
+        case 'toogleLoading':
+            return {...state, loadingController:action.payload.bool}
             break
         default:
             return state

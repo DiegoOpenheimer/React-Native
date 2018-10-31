@@ -12,7 +12,7 @@ export const getAllContacts = (uid) => {
                     })
                 }
             })
-
+            dispatch(toogleLoadingController(false))
             dispatch({
                 type:'getContacts',
                 payload: {
@@ -85,29 +85,47 @@ export const getTalks = userUid => {
             idContact:childItem.val().idContact
         })
       })
+      dispatch(toogleLoadingController(false))
       dispatch(setChats(chats))
     })
   }
 }
 
+export const toogleLoadingController = value => ({type:'toogleLoading', payload:{bool:value}})
 const setChats = chats => ({type:'setChats', payload:{chats}})
 
-export const sendMesssage = (uid, chatKey, message) => {
+export const sendMessage = (uid, chatKey, message, type, informationImage = undefined) => {
+    let body = informationImage ? {
+        id: uid,
+        message: message,
+        dateMessage: new Date().getFullYear() + 
+                    '/' + (new Date().getMonth() + 1) + 
+                    '/' + new Date().getDate() + 
+                    ' ' + new Date().getHours() + 
+                    ':' + new Date().getMinutes(),
+        type,
+        informationImage: {
+            width: informationImage.width,
+            height: informationImage.height
+        }
+    
+    } : {
+        id: uid,
+        message: message,
+        dateMessage: new Date().getFullYear() + 
+                    '/' + (new Date().getMonth() + 1) + 
+                    '/' + new Date().getDate() + 
+                    ' ' + new Date().getHours() + 
+                    ':' + new Date().getMinutes(),
+        type
+    }
     return dispatch => {
         let chat = firebase.database().ref('chats').child(chatKey)
-        chat.child('messages').push({
-            id: uid,
-            message: message,
-            dateMessage: new Date().getFullYear() + 
-                        '/' + (new Date().getMonth() + 1) + 
-                        '/' + new Date().getDate() + 
-                        ' ' + new Date().getHours() + 
-                        ':' + new Date().getMinutes() + 
-                        ':' + new Date().getSeconds()
-        })
+        chat.child('messages').push(body)
     
     }
 }
+
 
 export const getMessages = chatId => {
     return dispatch => {
@@ -115,11 +133,19 @@ export const getMessages = chatId => {
             if(snapshot.exists()) {
                 let messages = new Array()
                 snapshot.forEach(childItem => {
-                    messages.push({
+                    let body = 'informationImage' in childItem.val() ? {
                         date: childItem.val().dateMessage,
                         id: childItem.val().id,
-                        message: childItem.val().message
-                    })
+                        message: childItem.val().message,
+                        type: childItem.val().type,
+                        informationImage:childItem.val().informationImage
+                    } : {
+                        date:childItem.val().dateMessage,
+                        id: childItem.val().id,
+                        message:childItem.val().message,
+                        type:childItem.val().type
+                    }
+                    messages.push(body)
                 })
                 dispatch(setMessages(messages))
             } else {

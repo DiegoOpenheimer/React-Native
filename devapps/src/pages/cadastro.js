@@ -14,7 +14,8 @@ export class Cadastro extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            password:''
+            password:'',
+            checkBox: false
         }
      }
 

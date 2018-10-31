@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
-import { getAllContacts, createChat } from '../../actions/chatAction'
+import { getAllContacts, createChat, toogleLoadingController } from '../../actions/chatAction'
 import { connect } from 'react-redux'
 
 import ContactsList from '../components/listContacts'
@@ -14,6 +14,9 @@ export class Contacts extends Component {
     constructor(props) {
         super(props)
         this.props.getAllContacts(this.props.user.uid)
+        if(this.props.contacts.length === 0) {
+            this.props.toogleLoadingController(true)
+        }
      }
 
     goBack(){
@@ -47,7 +50,11 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    return { contacts: state.chatReducer.contacts, user:{uid:state.auth.uid} }
+    return { 
+        contacts: state.chatReducer.contacts, 
+        user:{uid:state.auth.uid},
+        loading: state.chatReducer.loading 
+    }
 }
 
-export default connect(mapStateToProps, { getAllContacts, createChat })(Contacts)
+export default connect(mapStateToProps, { getAllContacts, createChat, toogleLoadingController })(Contacts)
