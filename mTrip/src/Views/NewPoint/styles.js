@@ -7,6 +7,17 @@ const styles = StyleSheet.create({
         flex: 1
     },
     map: {
+        flex: 1
+    },
+    positionIconBack: {
+        position: 'absolute',
+        top: 30,
+        left: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5
+    },
+    contentMap: {
         flex: 1.5
     },
     containerInputs: {

@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         alignItems: 'flex-start'
     },
+    contentBtnImg: {
+        flex:2,
+        justifyContent: 'flex-end',
+        alignItems:'flex-end',
+        paddingRight: 16
+    },
     iconBackRight: {
         width: 100,
         marginTop: 30,
@@ -28,7 +34,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     headerInformation: {
-        flex: 1,
+        flex: 0.5,
         flexDirection: 'row',
         margin: 16,
         justifyContent: 'space-between',

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         width: dim.width - 32,
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     cardPrice: {
         position: 'absolute',

@@ -11,7 +11,7 @@ const CardTrip = props => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onLongPress={() => handlerRemoveTrip(onLongPres, trip)} activeOpacity={0.9} onPress={() => onPress(trip)} style={styles.card}>
-                <ImageBackground activeOpacity={0.1} source={imgExist ? trip.img : BACKGROUNDCARD} style={styles.card}>
+                <ImageBackground imageStyle={{borderRadius: 5}} activeOpacity={0.1} source={imgExist ? {uri: trip.img} : BACKGROUNDCARD} style={styles.card}>
                     { checkImg(imgExist, trip, onPress) }
                     <View style={styles.cardPrice}>
                         <Text style={styles.price}>R$ {trip.price.toFixed(2)}</Text>

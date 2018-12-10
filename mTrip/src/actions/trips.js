@@ -34,6 +34,15 @@ export const newPoint = (trips, idTrip, point) => {
     return updateTrips(trips)
 }
 
+export const editTrip = (trips, trip) => {
+    const index = trips.indexOf(t => t.id)
+    if(index !== -1) {
+        trips[index] = trip
+        AsyncStorage.setItem('trips', JSON.stringify(trips))
+    }
+    return updateTrips(trips)
+}  
+
 const updateTrips = (trips) => ({
     type: Types.UPDATE_TRIPS,
     payload: { trips }

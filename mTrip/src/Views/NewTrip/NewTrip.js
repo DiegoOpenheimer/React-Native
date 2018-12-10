@@ -1,26 +1,52 @@
 import React, { Component } from 'react'
-import { View, Text, Button, TextInput, ImageBackground, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, Button, TextInput, ImageBackground, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign';
+import IconCamera from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import Toast from 'react-native-simple-toast'
+import ImagePicker from 'react-native-image-crop-picker'
 
 import BACKGROUND_HEADER from '../../../assets/background.png'
 import styles from './styles'
 import { addTrips } from '../../actions/trips'
 
+const checkImg = uri => {
+    if(uri) {
+        return { uri }
+    } else {
+        return BACKGROUND_HEADER
+    }
+}
+
+const positionIconCamera = value => {
+    if(value) {
+        return styles.btnRight
+    }
+    return null
+}
+
 const mountHeader = navigation => () => {
-    return <View style={{height: 200}}>
-        <ImageBackground style={{flex: 1}} source={BACKGROUND_HEADER} resizeMode="cover">
+    const img = navigation.getParam('img')
+    const callback = navigation.getParam('handlerPickerImage')
+    return <View style={styles.heightHeader}>
+        <ImageBackground style={styles.contentHeader} source={ checkImg(img)} resizeMode="cover">
             <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                 <View style={styles.btnLeft}>
                     <Icon size={40} color="#FFF" name="arrowleft" />
                 </View>
             </TouchableWithoutFeedback>
+            <TouchableOpacity style={positionIconCamera(img)} onPress={() => callback()} activeOpacity={0.9} >
+                <IconCamera name="add-a-photo" size={!!img ? 40 : 80} color="#FFF" />
+            </TouchableOpacity>
         </ImageBackground>
     </View>
 }
 
 class NewTrip extends Component {
+
+    componentDidMount() {
+        this.props.navigation.setParams({handlerPickerImage: this.handlerPickerImage})
+    }
 
     state = {
         trip: {
@@ -57,6 +83,20 @@ class NewTrip extends Component {
             this.props.navigation.goBack()   
             Toast.show('Viagem cadastrada com sucesso', Toast.LONG)
         }
+    }
+
+    handlerPickerImage = () => {
+        ImagePicker.openPicker({
+            mediaType: 'photo'
+        })
+        .then(result => {
+            if(result && result.path) {
+                const s = {...this.state}
+                s.trip.img = result.path
+                this.props.navigation.setParams({img: result.path})
+                this.setState(s)
+            }
+        })
     }
 
     render() {

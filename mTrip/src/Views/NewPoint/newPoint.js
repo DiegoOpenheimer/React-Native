@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, TextInput, Button, ScrollView, Keyboard } from 'react-native'
+import { View, Text, TextInput, Button, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { connect } from 'react-redux'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import styles from './styles'
 import { newPoint } from '../../actions/trips'
@@ -24,15 +25,15 @@ class NewPoint extends React.Component {
         },
         position: {
             longitude: -122.4324,
-            latitute: 37.78825
+            latitude: 37.78825
         },
         point: {
             id: new Date().getTime(),
             name: '',
             description: '',
             price: 0,
-            longitude: '',
-            latitude: ''
+            latitude: 37.78825,
+            longitude: -122.4324,
         },
         error: {
             name: false,
@@ -63,15 +64,22 @@ class NewPoint extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <MapView onRegionChangeComplete={region => this.setState({region})} initialRegion={this.initialRegion} region={this.state.region} style={styles.map}>
-                    <Marker 
-                        coordinate = {this.initialRegion}
-                        draggable
-                        title="Novo ponto"
-                        description="Mova o marcador para definir um ponto a essa viagem"
-                        onDragEnd={(e) => this.setState({position: e.nativeEvent.coordinate})}                        
-                    />
-                </MapView>
+                <View style={styles.contentMap}>
+                    <MapView onRegionChangeComplete={region => this.setState({region})} initialRegion={this.initialRegion} region={this.state.region} style={styles.map}>
+                        <Marker 
+                            coordinate = {this.initialRegion}
+                            draggable
+                            title="Novo ponto"
+                            description="Mova o marcador para definir um ponto a essa viagem"
+                            onDragEnd={(e) => this.setState({position: e.nativeEvent.coordinate})}                        
+                        />
+                    </MapView>
+                    <View style={styles.positionIconBack}>
+                        <TouchableWithoutFeedback onPress={() => this.props.navigation.goBack()}>
+                            <Icon name="arrow-back" size={50} color="#FFF" />
+                        </TouchableWithoutFeedback>
+                    </View>
+                </View>
                 <View style={styles.containerInputs}>
                     <ScrollView style={styles.scrollView}>
                         <Text style={styles.title}>Novo Ponto</Text>

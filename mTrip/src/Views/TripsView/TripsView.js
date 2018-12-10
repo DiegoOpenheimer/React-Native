@@ -37,7 +37,6 @@ class TripsView extends Component {
         const [ data ] = viewableItems
         if (data.item.places.length) {
             const { latitude, longitude } = data.item.places[0]
-            console.log(latitude, longitude)
             this.map.animateToRegion(
                 this.regionFrom(latitude, longitude, 10000),
                 1000

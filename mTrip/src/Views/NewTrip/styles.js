@@ -2,11 +2,25 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     btnLeft: {
-        marginTop: 24,
-        marginLeft: 16
+        position: 'absolute',
+        top: 24,
+        left: 16
+    },
+    btnRight: {
+        position: 'absolute',
+        top: 24,
+        right: 16
     },
     container: {
         flex: 1
+    },
+    heightHeader: {
+        height: 200
+    },
+    contentHeader: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     containerInputs: {
         flex: 1,
