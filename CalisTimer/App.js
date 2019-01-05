@@ -1,4 +1,2 @@
-import React from 'react'
-import Main from './src/views/main'
-
-export default Main
+import App from './src/App/navigation'
+export default App
