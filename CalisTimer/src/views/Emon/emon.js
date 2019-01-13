@@ -15,7 +15,7 @@ const Emon = props => {
             <Select onSelected={(value) => console.log(value)} label="Contagem regressiva" selected={0} options={['Sim', 'Não']} styleContent={styles.select} />
             <View style={styles.chooseMinutes}>
                 <Text style={styles.textMinutes}>Quantos minutos</Text>
-                <TextInput selectionColor="#FFF" defaultValue="15" keyboardType="numeric" maxLength={9999} style={styles.input} />
+                <TextInput selectionColor="#FFF" defaultValue="15" keyboardType="numeric" maxLength={4} style={styles.input} />
             </View>
             <View style={styles.bottom}>
                     <TouchableOpacity activeOpacity={0.7} style={styles.buttonPlay}>
