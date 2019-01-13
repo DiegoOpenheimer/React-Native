@@ -13,6 +13,6 @@ const App = createStackNavigator({
     Emon: {
         screen: Emon
     }
-}, { initialRouteName:'Emon' })
+}, { initialRouteName:'Main' })
 
 export default createAppContainer(App)

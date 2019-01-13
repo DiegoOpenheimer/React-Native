@@ -1,8 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import Title from '../../components/Title/Title'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import ArrowLeft from 'react-native-vector-icons/AntDesign'
 import Select from '../../components/Select/Select'
+import styles from './style'
 
 const Emon = props => {
     return(
@@ -11,11 +13,17 @@ const Emon = props => {
             <Icon style={styles.iconGear} name="gear" color="#FFF" size={70} />
             <Select onSelected={(value) => console.log(value)} label="Alertas" selected={0} options={['Desligado', '15s', '30s', '45s']} styleContent={styles.select} />
             <Select onSelected={(value) => console.log(value)} label="Contagem regressiva" selected={0} options={['Sim', 'Não']} styleContent={styles.select} />
-            <Text>Quantos minutos</Text>
-            <Text>15</Text>
-            <View style={{flexDirection: 'row', flex:1, alignItems:'flex-end'}}>
-                    <Text>Button</Text>
-                    <Text>TESTAR</Text>
+            <View style={styles.chooseMinutes}>
+                <Text style={styles.textMinutes}>Quantos minutos</Text>
+                <TextInput selectionColor="#FFF" defaultValue="15" keyboardType="numeric" maxLength={9999} style={styles.input} />
+            </View>
+            <View style={styles.bottom}>
+                    <TouchableOpacity activeOpacity={0.7} style={styles.buttonPlay}>
+                        <ArrowLeft name="caretright" color="#FFF" size={30} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonTest}>
+                        <Text style={styles.buttonTestText}>TESTAR</Text>
+                    </TouchableOpacity>
             </View>
            </View>
     )
@@ -24,31 +32,5 @@ const Emon = props => {
 Emon.navigationOptions = {
     header: null
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        backgroundColor: '#d6304a',
-        alignItems: 'stretch'
-    },
-    title: {
-        color: '#FFF',
-        fontFamily: 'Ubuntu-Bold',
-        fontSize: 48
-    },
-    subTitle: {
-        color: '#FFF'
-    },
-    styleContent: {
-        marginTop: 50,
-        marginBottom: 10
-    },
-    iconGear: {
-        alignSelf: 'center'
-    },
-    select: {
-        marginTop: 20
-    }
-})
 
 export default Emon
