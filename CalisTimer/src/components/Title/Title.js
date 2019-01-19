@@ -6,7 +6,9 @@ const Title = props => {
     return(
         <View style={styleContent}>
             <Text style={[styleComponent.title, stylesTitle]}>{title}</Text>
-            <Text style={[styleComponent.subTitle, stylesSubTitle]}>{subTitle}</Text>
+            {
+                subTitle && <Text style={[styleComponent.subTitle, stylesSubTitle]}>{subTitle}</Text>
+            }
         </View>
     )
 }

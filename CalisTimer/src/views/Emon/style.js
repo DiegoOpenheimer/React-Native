@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#d6304a',
         alignItems: 'stretch'
     },
+    containerEmonRunning: {
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     title: {
         color: '#FFF',
         fontFamily: 'Ubuntu-Bold',
@@ -66,6 +71,24 @@ const styles = StyleSheet.create({
         fontSize: 96,
         padding: 0,
         margin: 0
+    },
+    textTimer: {
+        color: '#FFF',
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 96
+    },
+    textTimeRemmaing: {
+        color: '#FFF',
+        fontSize: 20
+    },
+    timerCountDown: {
+        position: 'absolute',
+        bottom: 20
+    },
+    textTimerCountDown: {
+        color: '#FFF',
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 120
     }
 })
 
