@@ -16,7 +16,7 @@ export default class Main extends React.PureComponent {
                 <View style={styles.containerButtons}>
                     <Button onPress={() => this.props.navigation.navigate('Emon')} styleText={styles.textButton} >EMON</Button>
                     <Button styleText={styles.textButton} >AMRAP</Button>
-                    <Button styleText={styles.textButton} >ISOMETRIA</Button>
+                    <Button onPress={() => this.props.navigation.navigate('Isometria')} styleText={styles.textButton} >ISOMETRIA</Button>
                 </View>
             </View>
         )

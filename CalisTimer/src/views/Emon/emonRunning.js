@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import styles from './style'
+import { View, Text, TouchableOpacity } from 'react-native'
+import styles from '../style'
 import Timer from '../../components/Timer/Timer'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import Title from '../../components/Title/Title'
@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import BackgroundProgress from '../../components/BackgroundProgress/BackgroundProgress'
 import Sound from 'react-native-sound'
 import SoundAlert from '../../../assets/alert.wav'
+import Square from 'react-native-vector-icons/FontAwesome'
+
 
 export default class EmonRunning extends React.Component {
 
@@ -38,7 +40,7 @@ export default class EmonRunning extends React.Component {
                     this.setState({countDownTime: null})
                     this.startTimer(time)
                 }
-            }, 1000)
+            }, this.props.params.test ? 100 : 1000)
             this.setState({timeCountDown})
         } else {
             this.startTimer(time)
@@ -49,6 +51,8 @@ export default class EmonRunning extends React.Component {
         clearInterval(this.state.timeCountDown)
         clearInterval(this.state.timer)
     }
+
+    stop = () => this.props.stop()
 
     startTimer = (paramsTime) => {
         let time = 0
@@ -66,7 +70,7 @@ export default class EmonRunning extends React.Component {
             if(this.state.alertChoose !== 'Desligado' && time % parseInt(this.state.alertChoose.replace('s', '')) === 0) {
                 this.alert.play()
             }
-        }, 1000);
+        }, this.props.params.test ? 100 : 1000);
         this.setState({timer})
     }
 
@@ -74,16 +78,21 @@ export default class EmonRunning extends React.Component {
         const fullTime = this.state.fullTime
         const counterTime = this.state.counterTimer
         return(
-            <BackgroundProgress value={this.state.counterSeconds / 60 * 100}>
+            <BackgroundProgress value={this.state.counterSeconds / 60 * 100} test={this.props.params.test}>
                 <View style={styles.containerEmonRunning}>
                     <View style={{position:'absolute', top: 20}}>
                         <Title styleContent={styles.styleContent} style={styles.title} stylesTitle={styles.title} stylesSubTitle={styles.subTitle} title='Emon' />
                         <Icon style={styles.iconGear} name="gear" color="#FFF" size={70} />
                     </View>
                     <Timer styleText={styles.textTimer} time={this.state.counterTimer}/>
-                    <ProgressBar value={counterTime / fullTime * 100} />
+                    <ProgressBar value={counterTime / fullTime * 100} test={this.props.params.test} />
                     <Timer styleText={styles.textTimeRemmaing} time={this.state.time} appendText=' restantes'/>
-                    {this.renderCountDown()}
+                    <View style={styles.timerCountDown}>
+                        {this.renderCountDown()}
+                        <TouchableOpacity onPress={this.stop} activeOpacity={0.7} style={styles.buttonPlay}>
+                            <Square name="square" color="#FFF" size={30} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </BackgroundProgress>
         )
@@ -91,9 +100,7 @@ export default class EmonRunning extends React.Component {
 
     renderCountDown = () => {
         if (this.state.countDownTime != null) {
-            return <View style={styles.timerCountDown}>
-                <Text style={styles.textTimerCountDown}>{this.state.countDownTime }</Text>
-            </View>
+            return <Text style={styles.textTimerCountDown}>{this.state.countDownTime }</Text>
         }
     }
 

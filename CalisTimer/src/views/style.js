@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    contentIsometria: {
+        justifyContent: 'center',
+        flex: 4
+    },
     title: {
         color: '#FFF',
         fontFamily: 'Ubuntu-Bold',

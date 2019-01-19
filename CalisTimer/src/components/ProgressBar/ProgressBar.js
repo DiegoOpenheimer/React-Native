@@ -14,7 +14,7 @@ class ProgressBar extends React.Component {
                 this.width,
                 {
                     toValue: parseInt(this.props.value),
-                    duration: 1000,
+                    duration: this.props.test ? 100 : 1000,
                     easing: Easing.easeInCirc
                 }
             ).start()

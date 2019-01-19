@@ -4,7 +4,7 @@ import Title from '../../components/Title/Title'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ArrowLeft from 'react-native-vector-icons/AntDesign'
 import Select from '../../components/Select/Select'
-import styles from './style'
+import styles from '../style'
 import EmonRunning from './emonRunning'
 
 const TIME_COUNT_DOWN = 5
@@ -38,18 +38,19 @@ class Emon extends React.Component {
         countDown: 0,
         time: 15,
         alertOptions: ['Desligado', '15s', '30s', '45s'],
-        alertChoose: 'Desligado'
+        alertChoose: 'Desligado',
+        test: false
     }
 
-    start = () => {
+    start = (test) => {
         const time = this.state.time || 15
         const countDownTime = this.state.countDown ? TIME_COUNT_DOWN : null
-        this.setState({step: 1, time: time, countDownTime})
+        this.setState({step: 1, time: time, countDownTime, test})
     }
 
     render() {
         if (this.state.step) {
-            return <EmonRunning params={{...this.state}} />
+            return <EmonRunning params={{...this.state}} stop={() => this.setState({step: 0})} />
         } else {
             return(
                 <TouchableWithoutFeedback onPress={() => this.input.blur()}>
@@ -63,10 +64,10 @@ class Emon extends React.Component {
                             <TextInput onChangeText={time => this.setState({time})} ref={r => this.input = r} selectionColor="#FFF" defaultValue={this.state.time.toString()} keyboardType="numeric" maxLength={4} style={styles.input} />
                         </View>
                         <View style={styles.bottom}>
-                                <TouchableOpacity onPress={this.start} activeOpacity={0.7} style={styles.buttonPlay}>
+                                <TouchableOpacity onPress={() => this.start(false)} activeOpacity={0.7} style={styles.buttonPlay}>
                                     <ArrowLeft name="caretright" color="#FFF" size={30} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.buttonTest}>
+                                <TouchableOpacity onPress={() => this.start(true)} style={styles.buttonTest}>
                                     <Text style={styles.buttonTestText}>TESTAR</Text>
                                 </TouchableOpacity>
                         </View>

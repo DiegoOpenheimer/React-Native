@@ -14,12 +14,12 @@ class BackgroundProgress extends React.Component {
             Animated.parallel([
                 Animated.timing(this.flexPrimary, {
                     toValue: this.props.value,
-                    duration: 1000,
+                    duration: this.props.test ? 100 : 1000,
                     easing: Easing.easeInCirc
                 }),
                 Animated.timing(this.flexSecondary, {
                     toValue: this.props.value,
-                    duration: 1000,
+                    duration: this.props.test ? 100 : 1000,
                     easing: Easing.easeInCirc
                 })
             ]).start()
