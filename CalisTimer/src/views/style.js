@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch'
     },
     containerEmonRunning: {
-        flex:1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -87,12 +87,25 @@ const styles = StyleSheet.create({
     },
     timerCountDown: {
         position: 'absolute',
-        bottom: 20
+        bottom: 20,
+        alignItems: 'center'
     },
     textTimerCountDown: {
         color: '#FFF',
         fontFamily: 'Ubuntu-Bold',
         fontSize: 120
+    },
+    buttonsAmrap: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        width: '100%'
+    },
+    buttonsBottomBackReset: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        width: '90%'
     }
 })
 

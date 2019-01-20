@@ -10,10 +10,11 @@ import SoundAlert from '../../../assets/alert.wav'
 import Square from 'react-native-vector-icons/FontAwesome'
 import IconAntDesign from 'react-native-vector-icons/AntDesign'
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome'
+import KeepAwake from 'react-native-keep-awake'
 
 
 
-export default class EmonRunning extends React.Component {
+export default class IsometriaRunning extends React.Component {
 
     state = {
         countDownTime: 5,
@@ -98,6 +99,7 @@ export default class EmonRunning extends React.Component {
         const opacity = this.state.pause ? 1 : 0.5
         return(
             <BackgroundProgress value={this.state.alertChoose !== 'Livre' ? counterTime / fullTime * 100 : 100} test={this.props.params.test}>
+            <KeepAwake />
                 <View style={styles.containerEmonRunning}>
                     <View style={{position:'absolute', top: 20}}>
                         <Title styleContent={styles.styleContent} style={styles.title} stylesTitle={styles.title} stylesSubTitle={styles.subTitle} title='Isometria' />
@@ -109,7 +111,7 @@ export default class EmonRunning extends React.Component {
                     }
                     <View style={[styles.timerCountDown, { alignItems: 'center' }]}>
                         <Text style={styles.textTimerCountDown}>{this.state.countDownTime }</Text>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '90%'}}>
+                        <View style={styles.buttonsBottomBackReset}>
                             <TouchableOpacity onPress={this.goBack} activeOpacity={0.7}>
                                 <IconAntDesign style={{opacity}} name="arrowleft" color="#FFF" size={30} />
                             </TouchableOpacity>

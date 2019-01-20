@@ -9,6 +9,7 @@ import BackgroundProgress from '../../components/BackgroundProgress/BackgroundPr
 import Sound from 'react-native-sound'
 import SoundAlert from '../../../assets/alert.wav'
 import Square from 'react-native-vector-icons/FontAwesome'
+import KeepAwake from 'react-native-keep-awake'
 
 
 export default class EmonRunning extends React.Component {
@@ -79,6 +80,7 @@ export default class EmonRunning extends React.Component {
         const counterTime = this.state.counterTimer
         return(
             <BackgroundProgress value={this.state.counterSeconds / 60 * 100} test={this.props.params.test}>
+                <KeepAwake />
                 <View style={styles.containerEmonRunning}>
                     <View style={{position:'absolute', top: 20}}>
                         <Title styleContent={styles.styleContent} style={styles.title} stylesTitle={styles.title} stylesSubTitle={styles.subTitle} title='Emon' />
