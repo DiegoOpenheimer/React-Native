@@ -8,12 +8,12 @@ import {
     Image,
     TouchableOpacity,
     DatePickerAndroid,
-    ScrollView,
     Alert,
     ToastAndroid,
     ActivityIndicator,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    BackHandler
 } from 'react-native'
 import { Icon, SocialIcon } from 'react-native-elements'
 import {NavigationActions} from 'react-navigation'
@@ -38,6 +38,12 @@ export default class Home extends Component {
 
     }
 
+    handlerNavigation = () => {
+        this.setState({cadastro: false})
+        BackHandler.removeEventListener('hardwareBackPress', this.handlerNavigation)
+        return true
+    }
+
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
@@ -47,8 +53,8 @@ export default class Home extends Component {
                         <Image style={styles.image} resizeMode="contain"
                             source={require('../assets/img/pokemonTitle.png')}/>
                     </View>
-                    {this.state.cadastro ? <Cadastrar goLogin={() => this.setState({cadastro: false})}/> :
-                        <Login navigation={this.props.navigation} goCadastro={() => this.setState({cadastro: true})}/>}
+                    {this.state.cadastro ? <Cadastrar goLogin={() => this.setState({cadastro: false}, () => BackHandler.removeEventListener('hardwareBackPress', this.handlerNavigation))}/> :
+                        <Login navigation={this.props.navigation} goCadastro={() => this.setState({cadastro: true}, () => BackHandler.addEventListener('hardwareBackPress', this.handlerNavigation))}/>}
                 </ImageBackground>
             </TouchableWithoutFeedback>
         )

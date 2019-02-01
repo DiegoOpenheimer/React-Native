@@ -84,7 +84,7 @@ export default class Pokemon extends Component {
      }
 
      morePokemons() {
-        this.interval.offset += 20
+        this.interval.offset += 21
         this.poke.getPokemonsList(this.interval).then( data => {
             let s = [...this.state.pokemons]
             data.results.forEach( content => s.push(content))
@@ -198,7 +198,7 @@ class EachPokemon extends React.PureComponent {
             <TouchableOpacity onPress={this.showPokemon} style={styles.container}>
             <Spinner visible={this.state.loading} cancelable={true} />
                 <View style={styles.pokemon}>
-                    <Image style={{width: 100, height: 100}} resizeMode="contain" source={{uri:'http://pokeapi.co/media/sprites/pokemon/'+this.props.data.url.match(/\d+/g)[1]+'.png'}} />
+                    <Image style={{width: 100, height: 100}} resizeMode="contain" source={{uri:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+this.props.data.url.match(/\d+/g)[1]+'.png'}} />
                     <View style={{flex:1, justifyContent:'center', alignItems:'center', right:5}}>
                         <Text style={styles.namePokemon}>{this.props.data.name}</Text>
                     </View>
