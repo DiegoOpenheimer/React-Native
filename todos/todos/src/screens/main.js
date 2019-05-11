@@ -1,20 +1,27 @@
 import React from 'react'
-import { StatusBar, FlatList, StyleSheet, Text } from 'react-native'
+import { StatusBar, FlatList, StyleSheet, Alert } from 'react-native'
 import Toolbar from '../components/Toolbar'
 import Segment from '../components/ContainerSegment'
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
-import { editTodo } from '../actions/actionsTodo'
+import { editTodo, removeTodo } from '../actions/actionsTodo'
 
 import ContentListTodo from '../components/ContentListTodo'
 
-const Main = ({ navigation, todos, editTodo }) => {
+const Main = ({ navigation, todos, editTodo, removeTodo }) => {
 
     const onPressSegment = () => alert('ok')
 
-    const onChecked = (item) => {
+    const onChecked = item => {
         item.completed = !item.completed
         editTodo(item)
+    }
+
+    const onPressDelete = item => {
+        Alert.alert('Atenção', 'Deseja realmente excluir esse item?', [
+            { text: 'Não' },
+            { text: 'Sim', onPress: () => removeTodo( item ) },
+        ])
     }
 
     return(
@@ -24,7 +31,7 @@ const Main = ({ navigation, todos, editTodo }) => {
             <FlatList
                 style={{flex: 1}}
                 data={ todos }
-                renderItem={({ item }) => <ContentListTodo onChecked ={onChecked} item={item} />}
+                renderItem={({ item }) => <ContentListTodo onPressDelete={onPressDelete} onChecked ={onChecked} item={item} />}
                 keyExtractor={(item) => item.id.toString()}
              />
             <FAB 
@@ -52,4 +59,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { editTodo })(Main)
+export default connect(mapStateToProps, { editTodo, removeTodo })(Main)

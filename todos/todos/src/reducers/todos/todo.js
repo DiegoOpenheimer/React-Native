@@ -12,9 +12,9 @@ const INITIAL_STATE = [
 const handlerTodos = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case ADD_TODO:
-            return [ ...state, action.payload.todo ]
+            return [ ...state, action.payload ]
         case LOAD_TODO:
-            return [ ...state, ...action.payload.todos ]
+            return [ ...state, ...action.payload ]
         case EDIT_TODO:
             const mState = [ ...state ]
             console.log(action)

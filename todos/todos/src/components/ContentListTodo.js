@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { Checkbox } from 'react-native-paper';
 import IconButton from './IconButton'
 
-const ContentListTodo = ({ item, onChecked }) => {
+const ContentListTodo = ({ item, onChecked, onPressDelete }) => {
 
     const checked = item.completed ? 'checked' : 'unchecked' 
 
@@ -21,7 +21,7 @@ const ContentListTodo = ({ item, onChecked }) => {
                 </Text>
             </View>
             <IconButton
-                onPress={() => console.log('Pressed')}
+                onPress={onPressDelete.bind(null, item)}
             />
         </View>
     )
