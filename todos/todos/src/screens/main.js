@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StatusBar, FlatList, StyleSheet, Alert } from 'react-native'
 import Toolbar from '../components/Toolbar'
 import Segment from '../components/ContainerSegment'
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
-import { editTodo, removeTodo } from '../actions/actionsTodo'
+import { editTodo, removeTodo, loadTodos, updateFilter } from '../actions/actionsTodo'
 
 import ContentListTodo from '../components/ContentListTodo'
 
-const Main = ({ navigation, todos, editTodo, removeTodo }) => {
+const Main = ({ navigation, todos, editTodo, removeTodo, loadTodos, updateFilter }) => {
 
-    const onPressSegment = () => alert('ok')
+    useEffect(() => {
+        loadTodos()
+    }, [  ])
+
+    const onPressSegment = value => updateFilter(value)
 
     const onChecked = item => {
         item.completed = !item.completed
@@ -55,8 +59,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        todos: state.todos
+        todos: state.todos.todoFiltered
     }
 }
 
-export default connect(mapStateToProps, { editTodo, removeTodo })(Main)
+export default connect(mapStateToProps, { editTodo, removeTodo, loadTodos, updateFilter })(Main)

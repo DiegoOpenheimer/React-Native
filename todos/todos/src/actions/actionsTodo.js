@@ -1,5 +1,5 @@
-import { EDIT_TODO, REMOVE_TODO, ADD_TODO } from './typeTodo'
-import { saveItem, removeTodoInStorage } from '../database/index'
+import { EDIT_TODO, REMOVE_TODO, ADD_TODO, LOAD_TODO, UPDATE_FILTER } from './typeTodo'
+import { saveItem, removeTodoInStorage, getTodos } from '../database/index'
 
 export const editTodo = item => {
     saveItem( item )
@@ -9,6 +9,18 @@ export const editTodo = item => {
     }
 }
 
+export const loadTodos = _ => dispatch => {
+    getTodos()
+    .then(todos => {
+        if (todos) {
+            dispatch({
+                type: LOAD_TODO,
+                payload: todos
+            })
+        }
+    })
+}
+
 export const addTodo = item => {
     saveItem( item )
     return {
@@ -16,6 +28,8 @@ export const addTodo = item => {
         payload: item
     }
 }
+
+export const updateFilter = value => ({ type: UPDATE_FILTER, payload: value })
 
 export const removeTodo = item => {
     removeTodoInStorage( item )

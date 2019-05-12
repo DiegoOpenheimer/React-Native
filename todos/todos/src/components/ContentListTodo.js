@@ -8,7 +8,7 @@ const ContentListTodo = ({ item, onChecked, onPressDelete }) => {
     const checked = item.completed ? 'checked' : 'unchecked' 
 
     return (
-        <View style={ styles.container }>
+        <View style={ [styles.container, item.completed && {backgroundColor: 'rgba(187, 192, 201, .2)'}] }>
             <View style={ styles.row } >
                 <View style={{marginTop: 5}}>
                     <Checkbox 
@@ -16,7 +16,7 @@ const ContentListTodo = ({ item, onChecked, onPressDelete }) => {
                         onPress={() => onChecked(item)}
                     />
                 </View>
-                <Text style={styles.content} allowFontScaling={ false } >
+                <Text style={[styles.content, item.completed && {textDecorationLine: 'line-through'}]} allowFontScaling={ false } >
                     { item.task }
                 </Text>
             </View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#CCC',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     row: {
         flexDirection: 'row',
