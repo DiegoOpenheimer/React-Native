@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { Checkbox } from 'react-native-paper';
 import IconButton from './IconButton'
 
@@ -8,22 +8,26 @@ const ContentListTodo = ({ item, onChecked, onPressDelete }) => {
     const checked = item.completed ? 'checked' : 'unchecked' 
 
     return (
-        <View style={ [styles.container, item.completed && {backgroundColor: 'rgba(187, 192, 201, .2)'}] }>
-            <View style={ styles.row } >
-                <View style={{marginTop: 5}}>
-                    <Checkbox 
-                        status={checked}
-                        onPress={() => onChecked(item)}
+        <TouchableWithoutFeedback onLongPress={onPressDelete.bind(null, item)} >
+            <View style={ [styles.container, item.completed && styles.contentCompleted] }>
+                <View style={ styles.row } >
+                    <View style={{marginTop: 5}}>
+                        <Checkbox 
+                            status={checked}
+                            onPress={() => onChecked(item)}
+                        />
+                    </View>
+                    <Text numberOfLines={3} ellipsizeMode="tail" style={[styles.content, item.completed && {textDecorationLine: 'line-through'}]} allowFontScaling={ false } >
+                        { item.task }
+                    </Text>
+                </View>
+                <View style={styles.contentButton} >
+                    <IconButton
+                        onPress={onPressDelete.bind(null, item)}
                     />
                 </View>
-                <Text style={[styles.content, item.completed && {textDecorationLine: 'line-through'}]} allowFontScaling={ false } >
-                    { item.task }
-                </Text>
             </View>
-            <IconButton
-                onPress={onPressDelete.bind(null, item)}
-            />
-        </View>
+        </TouchableWithoutFeedback>
     )
 
 }
@@ -40,10 +44,19 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center', 
+        flex: 1
     },
     content: {
         fontSize:24,
         marginLeft: 8,
+    },
+    contentButton: {
+        flex: 0.25,
+        justifyContent: 'center',
+        alignItems: 'flex-end'
+    },
+    contentCompleted: {
+        backgroundColor: 'rgba(187, 192, 201, .2)'
     }
 })
 
