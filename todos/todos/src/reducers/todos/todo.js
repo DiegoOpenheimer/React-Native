@@ -56,7 +56,7 @@ const editTodo = (state, action) => {
     } else {
         todoFiltered = [...mState.all.filter(todo => todo.completed)]    
     }
-    return { ...mState, todoFiltered }
+    return { ...mState, todoFiltered, all: [...mState.all] }
 }
 
 const updateFilter = (state, action) => {

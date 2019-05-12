@@ -1,9 +1,13 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation'
+import React from 'react'
+import { createAppContainer, createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import IconInfo from 'react-native-vector-icons/Entypo'
 
 import Main from './screens/main'
 import CreateTodo from './screens/createTodo'
+import About from './screens/about'
 
-const stackNavigator = createStackNavigator({
+const StackNavigator = createStackNavigator({
     Main: {
         screen: Main,
         navigationOptions: {
@@ -16,6 +20,30 @@ const stackNavigator = createStackNavigator({
             header: null
         }
     }
+}, {
+    navigationOptions: ({ navigation }) => ({
+        tabBarVisible: navigation.state.index < 1,
+    })
 })
 
-export default createAppContainer( stackNavigator )
+const BottomNavigator = createBottomTabNavigator({
+    Stack: {
+        screen: StackNavigator,
+        navigationOptions: {
+            title: 'Tasks',
+            tabBarIcon: ({ tintColor }) => <Icon name="tasks" color={tintColor} size={20} />
+        }
+    },
+    About: {
+        screen: About,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => <IconInfo name="info" color={tintColor} size={20} />
+        }
+    }
+}, {
+    tabBarOptions: {
+        activeTintColor: '#6b52ae'
+    }
+})
+
+export default createAppContainer( BottomNavigator )
