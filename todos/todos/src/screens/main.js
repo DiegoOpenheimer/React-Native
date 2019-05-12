@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StatusBar, FlatList, StyleSheet, Alert } from 'react-native'
 import Toolbar from '../components/Toolbar'
 import Segment from '../components/ContainerSegment'
@@ -16,6 +16,8 @@ const Main = ({ navigation, todos, editTodo, removeTodo, loadTodos, updateFilter
 
     const onPressSegment = value => updateFilter(value)
 
+    const refList = useRef(null)
+
     const onChecked = item => {
         item.completed = !item.completed
         editTodo(item)
@@ -28,15 +30,20 @@ const Main = ({ navigation, todos, editTodo, removeTodo, loadTodos, updateFilter
         ])
     }
 
+    const scrollToEnd = () => refList.current.scrollToEnd({ animated: true })
+
     return(
         <>
             <Toolbar title="Todo list" statusBarHeight={StatusBar.currentHeight} />
             <Segment  values={[ 'ALL', 'Todo', 'Complete' ]} onPress={ onPressSegment } />
             <FlatList
+                ref={refList}
                 style={{flex: 1}}
                 data={ todos }
                 renderItem={({ item }) => <ContentListTodo onPressDelete={onPressDelete} onChecked ={onChecked} item={item} />}
                 keyExtractor={(item) => item.id.toString()}
+                onContentSizeChange={scrollToEnd}
+                onLayout={scrollToEnd}
              />
             <FAB 
                 style={styles.fab}
