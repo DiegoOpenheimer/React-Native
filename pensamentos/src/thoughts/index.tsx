@@ -13,6 +13,12 @@ const Thoughts = () => {
     const config = useDispatchConfig()
     const quoteComponent = useRef<QuoteRef>()
 
+    const configDispatch = useDispatchConfig()
+
+    useEffect(() => {
+      configDispatch.load()
+    }, [])
+
     useEffect(() => {
         startThoughts()
     }, [state.automatic, state.currentSegment, state.timeToChangeThoughts])
@@ -37,7 +43,7 @@ const Thoughts = () => {
     return (
         <TouchableWithoutFeedback onPress={startThoughts} style={styles.container} >
             <View>
-                <Image source={state.quote.image} blurRadius={10} resizeMode='cover' />
+                <Image source={state.quote?.image} blurRadius={10} resizeMode='cover' />
                 <QuoteComponent ref={quoteComponent} color={colors.color} textColor={colors.textColor} quote={state.quote} />
             </View>
         </TouchableWithoutFeedback>

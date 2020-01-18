@@ -12,9 +12,9 @@ const ConfigComponent = () => {
     const state = useSelector((state: Config) => ({
         automatic: state.automatic,
         timeToChangeThoughts: state.timeToChangeThoughts,
-        currentSegment: state.currentSegment
+        currentSegment: state.currentSegment,
+        timeOnStorage: state.timeSaveOnStorage
     }))
-    
     const dispatch = useDispatchConfig()
     return (
         <SafeAreaView style={styles.container}>
@@ -31,11 +31,12 @@ const ConfigComponent = () => {
                 <View style={[styles.contentSlider, styles.spacingContent]}>
                     <Text>3</Text>
                     <Slider
-                        onValueChange={dispatch.setTime}
+                        onValueChange={value => dispatch.setTime(value, false)}
+                        onSlidingComplete={value => dispatch.setTime(value, true)}
                         style={{flex: 1}}
                         minimumValue={3}
                         maximumValue={30}
-                        value={8}
+                        value={state.timeOnStorage}
                         minimumTrackTintColor={Color.primaryColor}
                         thumbTintColor={Color.primaryColor}
                         maximumTrackTintColor={Color.gray}

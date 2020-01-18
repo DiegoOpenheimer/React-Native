@@ -22,13 +22,13 @@ const QuoteComponent = forwardRef((props: IQuoteComponent, ref) => {
 
     useImperativeHandle(ref, () => ({
         resetAnimation() {
+            setFontSize(40)
             opacity.setValue(0)
             top.setValue(100)
         }
     }))
 
     useEffect(() => {
-        setFontSize(30)
         Animated.parallel([
             Animated.timing(
                 opacity,
@@ -48,10 +48,10 @@ const QuoteComponent = forwardRef((props: IQuoteComponent, ref) => {
     }, [props.quote])
 
     useEffect(() => {
-        if (heightText > heightView) {
-            setFontSize(fontSize - 2)
+        if (heightText >= heightView) {
+            setFontSize(fontSize - 1)
         }
-    }, [heightText])
+    }, [heightText, heightView])
 
     const styles = useMemo(() => createStyle(props), [props.color])
 
