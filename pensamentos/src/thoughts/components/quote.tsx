@@ -95,7 +95,7 @@ const createStyle = (props: IQuoteComponent) => StyleSheet.create({
         color: props.textColor,
         fontSize: 30,
         padding: 16,
-        flex: .4,
+        flex: .2,
         fontFamily: 'AlexBrush-Regular'
     },
 });

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useMemo } from 'react'
-import { TouchableWithoutFeedback, View,StyleSheet, Image } from 'react-native'
+import { TouchableWithoutFeedback, View,StyleSheet, Image, ImageBackground, Dimensions } from 'react-native'
 import { useSelector } from 'react-redux'
 import { Config, useDispatchConfig } from '../context'
 import QuoteComponent, { QuoteRef } from './components/quote'
@@ -41,12 +41,13 @@ const Thoughts = () => {
     }, [state.currentSegment])
 
     return (
-        <TouchableWithoutFeedback onPress={startThoughts} style={styles.container} >
-            <View>
-                <Image source={state.quote?.image} blurRadius={10} resizeMode='cover' />
-                <QuoteComponent ref={quoteComponent} color={colors.color} textColor={colors.textColor} quote={state.quote} />
-            </View>
-        </TouchableWithoutFeedback>
+        <ImageBackground style={styles.image} source={state.quote?.image} blurRadius={10}>
+            <TouchableWithoutFeedback onPress={startThoughts} >
+                <View style={styles.container} >
+                    <QuoteComponent ref={quoteComponent} color={colors.color} textColor={colors.textColor} quote={state.quote} />
+                </View>
+            </TouchableWithoutFeedback>
+        </ImageBackground>
     )
 }
 
@@ -56,6 +57,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    image: {
+        resizeMode: 'cover',
+        flex: 1
+    }
 })
 
 Thoughts.navigationOptions = {
