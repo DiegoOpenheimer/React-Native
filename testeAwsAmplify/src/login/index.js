@@ -18,6 +18,7 @@ import {
 import {Auth, Hub} from 'aws-amplify';
 import {useHeaderHeight} from 'react-navigation-stack';
 import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
+import jwtDecode from 'jwt-decode'
 
 const Login = props => {
   const [user, setUser] = useState({email: '', password: ''});
@@ -31,7 +32,6 @@ const Login = props => {
     };
     execute();
     const listenAuth = ({payload}) => {
-      console.log(payload?.event);
       if (payload.event === 'signIn') {
         setUser({email: '', password: ''});
         props.navigation.navigate('Home');
@@ -56,22 +56,20 @@ const Login = props => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo.idToken);
+      const tokenDecoded = jwtDecode(userInfo.idToken)
       Auth.federatedSignIn(
-        'google',
+        'accounts.google.com',
         {
           token: userInfo.idToken,
-          expires_at: 1579544492,
+          expires_at: tokenDecoded.exp
         },
         {
-          name: userInfo.user.name,
           email: userInfo.user.email,
-          username: userInfo.user.id,
+          name: userInfo.user.name,
+          username: userInfo.user.id
         },
       )
-        .then(console.log)
         .catch(console.log);
-      console.log('USER INFO: ', userInfo);
     } catch (error) {
       console.log('Error: ', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
