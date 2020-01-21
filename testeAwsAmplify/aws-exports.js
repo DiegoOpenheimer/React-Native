@@ -8,8 +8,10 @@ const awsmobile = {
   aws_user_pools_id: 'us-east-1_ufXes0Mxi',
   aws_user_pools_web_client_id: '5u42seq0ou8fipdbdpq3thea87',
   oauth: {
-    domain: 'teste-diego.auth.us-east-1.amazoncognito.com',
-    responseType: 'token',
+    domain: 'teste-diego-test.auth.us-east-1.amazoncognito.com',
+    redirectSignIn: 'myapp://',
+    redirectSignOut: 'myapp://',
+    responseType: 'code',
   },
   aws_appsync_graphqlEndpoint:
     'https://wyz7d7zctjfwrijoceaju4znti.appsync-api.us-east-1.amazonaws.com/graphql',

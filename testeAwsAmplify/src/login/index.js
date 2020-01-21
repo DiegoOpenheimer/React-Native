@@ -18,20 +18,28 @@ import {
 import {Auth, Hub} from 'aws-amplify';
 import {useHeaderHeight} from 'react-navigation-stack';
 import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
-import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode';
+import {
+  LoginButton,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
 
 const Login = props => {
   const [user, setUser] = useState({email: '', password: ''});
   useEffect(() => {
     const execute = () => {
       Auth.currentAuthenticatedUser()
-        .then(() => {
+        .then(currentUser => {
+          console.log('USER: ', currentUser);
           props.navigation.navigate('Home');
         })
         .catch(console.log);
     };
     execute();
     const listenAuth = ({payload}) => {
+      console.log('PAYLOAD: ', payload);
       if (payload.event === 'signIn') {
         setUser({email: '', password: ''});
         props.navigation.navigate('Home');
@@ -56,20 +64,19 @@ const Login = props => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      const tokenDecoded = jwtDecode(userInfo.idToken)
+      const tokenDecoded = jwtDecode(userInfo.idToken);
       Auth.federatedSignIn(
         'accounts.google.com',
         {
           token: userInfo.idToken,
-          expires_at: tokenDecoded.exp
+          expires_at: tokenDecoded.exp,
         },
         {
           email: userInfo.user.email,
           name: userInfo.user.name,
-          username: userInfo.user.id
+          username: userInfo.user.id,
         },
-      )
-        .catch(console.log);
+      ).catch(console.log);
     } catch (error) {
       console.log('Error: ', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -81,6 +88,48 @@ const Login = props => {
       } else {
         Alert.alert('Erro desconhecido');
       }
+    }
+  };
+
+  const signInWithFedered = federed => {
+    Auth.federatedSignIn({provider: federed})
+      .then(config => console.log('FEDERED', config))
+      .catch(console.log);
+  };
+
+  const signWithFacebook = (error, result) => {
+    if (error) {
+      console.log('login has error: ' + result.error);
+    } else if (result.isCancelled) {
+      console.log('login is cancelled.');
+    } else {
+      AccessToken.getCurrentAccessToken().then(data => {
+        const infoRequest = new GraphRequest(
+          '/me?fields=name,email,picture',
+          null,
+          (e, response) => {
+            if (e) {
+              console.log('ERROR: ', e);
+              return;
+            }
+            Auth.federatedSignIn(
+              'facebook',
+              {
+                token: data.accessToken,
+                expires_at: data.expirationTime,
+              },
+              {
+                email: response.email,
+                name: response.name,
+                username: response.id,
+              },
+            ).catch(console.log);
+            console.log('RESPONSE', response);
+            console.log('DATA ACCESS TOKEN: ', data);
+          },
+        );
+        new GraphRequestManager().addRequest(infoRequest).start();
+      });
     }
   };
 
@@ -123,6 +172,26 @@ const Login = props => {
               Google SDK
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => signInWithFedered('Google')}
+            style={[styles.buttonSignIn, styles.btnGoogle]}>
+            <Text style={[styles.alignText, styles.textBtnColor]}>
+              Google HOST UI
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => signInWithFedered('Facebook')}
+            style={styles.buttonSignIn}>
+            <Text style={[styles.alignText, styles.textBtnColor]}>
+              Facebook HOST UI
+            </Text>
+          </TouchableOpacity>
+          <LoginButton
+            style={{width: '100%', padding: 16}}
+            onLoginFinished={signWithFacebook}
+            onLogoutFinished={() => console.log('logout.')}
+          />
+
           <Button
             title="create account"
             onPress={() => props.navigation.navigate('Account')}
