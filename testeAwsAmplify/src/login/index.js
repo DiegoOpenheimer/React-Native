@@ -38,7 +38,7 @@ const Login = props => {
         .catch(console.log);
     };
     execute();
-    const listenAuth = (value) => {
+    const listenAuth = value => {
       console.log('PAYLOAD: ', value?.payload);
       if (value?.payload?.event === 'signIn') {
         setUser({email: '', password: ''});
@@ -61,8 +61,8 @@ const Login = props => {
   };
 
   const signInGoogle = async () => {
-    const provider = 'google'
-    console.log(provider)
+    const provider = 'google';
+    console.log(provider);
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -100,40 +100,42 @@ const Login = props => {
   };
 
   const signWithFacebook = (error, result) => {
-    console.log('callback...')
+    console.log('callback...');
     if (error) {
       console.log('login has error: ' + result.error);
     } else if (result.isCancelled) {
       console.log('login is cancelled.');
     } else {
-      console.log(result)
-      AccessToken.getCurrentAccessToken().then(data => {
-        const infoRequest = new GraphRequest(
-          '/me?fields=name,email,picture',
-          null,
-          (e, response) => {
-            if (e) {
-              console.log('ERROR: ', e);
-              return;
-            }
-            Auth.federatedSignIn(
-              'facebook',
-              {
-                token: data.accessToken,
-                expires_at: data.expirationTime,
-              },
-              {
-                email: response.email,
-                name: response.name,
-                username: response.id,
-              },
-            ).catch(console.log);
-            console.log('RESPONSE', response);
-            console.log('DATA ACCESS TOKEN: ', data);
-          },
-        );
-        new GraphRequestManager().addRequest(infoRequest).start();
-      }).catch(console.log);
+      console.log(result);
+      AccessToken.getCurrentAccessToken()
+        .then(data => {
+          const infoRequest = new GraphRequest(
+            '/me?fields=name,email,picture',
+            null,
+            (e, response) => {
+              if (e) {
+                console.log('ERROR: ', e);
+                return;
+              }
+              Auth.federatedSignIn(
+                'facebook',
+                {
+                  token: data.accessToken,
+                  expires_at: data.expirationTime,
+                },
+                {
+                  email: response.email,
+                  name: response.name,
+                  username: response.id,
+                },
+              ).catch(console.log);
+              console.log('RESPONSE', response);
+              console.log('DATA ACCESS TOKEN: ', data);
+            },
+          );
+          new GraphRequestManager().addRequest(infoRequest).start();
+        })
+        .catch(console.log);
     }
   };
 
