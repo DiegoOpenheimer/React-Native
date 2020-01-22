@@ -7,7 +7,7 @@ import {
   ProgressViewIOS,
   Text,
 } from 'react-native';
-import {Hub, Auth, API, graphqlOperation, Storage} from 'aws-amplify';
+import {Hub, Auth, API, graphqlOperation, Storage, Cache} from 'aws-amplify';
 import ImagePicker from 'react-native-image-picker';
 
 import * as queries from '../graphql/queries';
@@ -17,6 +17,7 @@ const Home = props => {
   const [progress, setProgress] = useState({value: 0, success: undefined});
 
   useEffect(() => {
+    (async () => console.log(await Cache.getItem('federatedInfo')))();
     const listenAuth = value => {
       console.log(value?.payload);
       if (value?.payload.event === 'signOut') {
@@ -24,17 +25,22 @@ const Home = props => {
       }
     };
     Hub.listen('auth', listenAuth);
-    // loadData();
+    loadData();
     return () => Hub.remove('auth', listenAuth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // async function loadData() {
-  //   const todos = await API.graphql(graphqlOperation(queries.listTodos)).catch(
-  //     console.log,
-  //   );
-  //   console.log(todos);
-  // }
+  async function loadData() {
+    console.log((await Auth.currentSession()).getAccessToken().getJwtToken());
+    const todos = await API.get('firstRestApi', '/items/name', {
+      headers: {
+        Authorization: `Bearer ${(await Auth.currentSession())
+          .getAccessToken()
+          .getJwtToken()}`,
+      },
+    }).catch(console.log);
+    console.log(todos);
+  }
 
   function saveStorage(key, content, config) {
     Storage.put(key, content, {
@@ -104,7 +110,9 @@ const Home = props => {
 
   const handleProgress = useCallback(currentProgress => {
     if (currentProgress.success) {
-      return <Text style={{textAlign: 'center'}}>Image uploaded with success</Text>;
+      return (
+        <Text style={{textAlign: 'center'}}>Image uploaded with success</Text>
+      );
     }
     if (currentProgress.success === false) {
       return <Text style={{textAlign: 'center'}}>Fail to upload image</Text>;
