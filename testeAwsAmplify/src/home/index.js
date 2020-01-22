@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {Hub, Auth, API, graphqlOperation} from 'aws-amplify';
 
 import * as queries from '../graphql/queries';
 
 const Home = props => {
-  const [error, setError] = useState('Home');
-
   useEffect(() => {
     const listenAuth = ({payload}) => {
       console.log(payload);
@@ -22,14 +20,14 @@ const Home = props => {
 
   async function loadData() {
     const todos = await API.graphql(graphqlOperation(queries.listTodos)).catch(
-      setError,
+      console.log,
     );
     console.log(todos);
   }
 
   return (
     <View style={styles.container}>
-      <Text>{error}</Text>
+      <Text>Home</Text>
     </View>
   );
 };
