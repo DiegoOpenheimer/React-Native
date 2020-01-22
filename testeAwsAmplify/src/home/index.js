@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
-import {Hub, Auth, API, graphqlOperation} from 'aws-amplify';
+import {Hub, Auth, API, graphqlOperation, Cache} from 'aws-amplify';
 
 import * as queries from '../graphql/queries';
 
@@ -8,9 +8,10 @@ const Home = props => {
   const [error, setError] = useState('Home');
 
   useEffect(() => {
-    const listenAuth = ({payload}) => {
-      console.log(payload);
-      if (payload.event === 'signOut') {
+    (async() => console.log(await Cache.getItem('federatedInfo')))()
+    const listenAuth = (value) => {
+      console.log(value?.payload);
+      if (value?.payload.event === 'signOut') {
         props.navigation.navigate('Login');
       }
     };
