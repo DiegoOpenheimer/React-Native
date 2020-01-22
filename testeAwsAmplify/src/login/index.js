@@ -38,9 +38,9 @@ const Login = props => {
         .catch(console.log);
     };
     execute();
-    const listenAuth = ({payload}) => {
-      console.log('PAYLOAD: ', payload);
-      if (payload.event === 'signIn') {
+    const listenAuth = (value) => {
+      console.log('PAYLOAD: ', value?.payload);
+      if (value?.payload?.event === 'signIn') {
         setUser({email: '', password: ''});
         props.navigation.navigate('Home');
       }
@@ -61,12 +61,14 @@ const Login = props => {
   };
 
   const signInGoogle = async () => {
+    const provider = 'google'
+    console.log(provider)
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const tokenDecoded = jwtDecode(userInfo.idToken);
       Auth.federatedSignIn(
-        'accounts.google.com',
+        provider,
         {
           token: userInfo.idToken,
           expires_at: tokenDecoded.exp,
@@ -98,11 +100,13 @@ const Login = props => {
   };
 
   const signWithFacebook = (error, result) => {
+    console.log('callback...')
     if (error) {
       console.log('login has error: ' + result.error);
     } else if (result.isCancelled) {
       console.log('login is cancelled.');
     } else {
+      console.log(result)
       AccessToken.getCurrentAccessToken().then(data => {
         const infoRequest = new GraphRequest(
           '/me?fields=name,email,picture',
@@ -129,7 +133,7 @@ const Login = props => {
           },
         );
         new GraphRequestManager().addRequest(infoRequest).start();
-      });
+      }).catch(console.log);
     }
   };
 
