@@ -11,9 +11,8 @@ GoogleSignin.configure({
 });
 
 if (__DEV__) {
-  Reactotron
-  .useReactNative()
-  .connect();
+  console.tron = Reactotron.log;
+  Reactotron.useReactNative().connect();
 }
 
 AWS.configure(awsConfiguration);

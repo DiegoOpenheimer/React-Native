@@ -3,12 +3,13 @@
 const awsmobile = {
   aws_project_region: 'us-east-1',
   aws_cognito_identity_pool_id:
-    'us-east-1:32239a4c-1443-42fa-9bf1-c8c244c3a985',
+    'us-east-1:b7c0f4d6-98b4-42c3-8fad-c75cd5475418',
   aws_cognito_region: 'us-east-1',
-  aws_user_pools_id: 'us-east-1_ufXes0Mxi',
-  aws_user_pools_web_client_id: '5u42seq0ou8fipdbdpq3thea87',
+  aws_user_pools_id: 'us-east-1_QT2tEzvxe',
+  aws_user_pools_web_client_id: '1tvvl8acbi85i6m7hseqlboq1l',
   oauth: {
-    domain: 'teste-diego-test.auth.us-east-1.amazoncognito.com',
+    domain:
+      'amplifyteste4f02e2aa-4f02e2aa-test.auth.us-east-1.amazoncognito.com',
     scope: [
       'phone',
       'email',
@@ -22,25 +23,12 @@ const awsmobile = {
   },
   federationTarget: 'COGNITO_USER_POOLS',
   aws_appsync_graphqlEndpoint:
-    'https://wyz7d7zctjfwrijoceaju4znti.appsync-api.us-east-1.amazonaws.com/graphql',
+    'https://wzmcotpaiveltcdlbcilchu5mu.appsync-api.us-east-1.amazonaws.com/graphql',
   aws_appsync_region: 'us-east-1',
   aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-  aws_cloud_logic_custom: [
-    {
-      name: 'firstRestApi',
-      endpoint: 'https://7po681fpk1.execute-api.us-east-1.amazonaws.com/test',
-      region: 'us-east-1',
-    },
-  ],
-  aws_user_files_s3_bucket: 'first-buckettest-test',
+  aws_user_files_s3_bucket:
+    'amplifyteste41154c1604ac413989a097887f699ef9104442-test',
   aws_user_files_s3_bucket_region: 'us-east-1',
-  aws_dynamodb_all_tables_region: 'us-east-1',
-  aws_dynamodb_table_schemas: [
-    {
-      tableName: 'todo-test',
-      region: 'us-east-1',
-    },
-  ],
 };
 
 export default awsmobile;

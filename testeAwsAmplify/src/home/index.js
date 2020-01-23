@@ -33,9 +33,10 @@ const Home = props => {
   }, []);
 
   async function loadData() {
-    console.log((await Auth.currentSession()).getAccessToken().getJwtToken());
-    const todos = await API.get('firstRestApi', '/items').catch(console.log);
-    console.log(todos);
+    const todos = await API.graphql(
+      graphqlOperation(queries.listMyTypes),
+    ).catch(console.tron);
+    console.tron(todos);
   }
 
   function saveStorage(key, content, config) {
@@ -78,7 +79,9 @@ const Home = props => {
         const blob = await (await fetch(response.uri)).blob();
         console.log('blob: ', blob);
         setImage({uri: response.uri});
-        saveStorage(blob.data.name, blob, {contentType: blob.data.type});
+        saveStorage('photos/' + new Date().getTime() + blob.data.name, blob, {
+          contentType: blob.data.type,
+        });
       }
     });
   }
@@ -116,7 +119,7 @@ const Home = props => {
     if (Platform.OS === 'ios') {
       return <ProgressViewIOS progress={currentProgress.value} />;
     }
-    return <ProgressBarAndroid progress={currentProgress.value} />
+    return <ProgressBarAndroid progress={currentProgress.value} />;
   }, []);
 
   return (
@@ -129,10 +132,12 @@ const Home = props => {
 
 Home.navigationOptions = ({navigation}) => ({
   headerRight: () => {
-    return <View style={{flexDirection: 'row'}}>
-      <Button onPress={() => navigation.navigate('Item')} title="Item" />
-      <Button onPress={() => Auth.signOut()} title="logout" />
-    </View>;
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <Button onPress={() => navigation.navigate('Item')} title="Item" />
+        <Button onPress={() => Auth.signOut()} title="logout" />
+      </View>
+    );
   },
 });
 

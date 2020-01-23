@@ -1,27 +1,33 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTodo = `subscription OnCreateTodo {
-  onCreateTodo {
+export const onCreateMyType = `subscription OnCreateMyType {
+  onCreateMyType {
     id
-    name
-    description
+    title
+    content
+    price
+    rating
   }
 }
 `;
-export const onUpdateTodo = `subscription OnUpdateTodo {
-  onUpdateTodo {
+export const onUpdateMyType = `subscription OnUpdateMyType {
+  onUpdateMyType {
     id
-    name
-    description
+    title
+    content
+    price
+    rating
   }
 }
 `;
-export const onDeleteTodo = `subscription OnDeleteTodo {
-  onDeleteTodo {
+export const onDeleteMyType = `subscription OnDeleteMyType {
+  onDeleteMyType {
     id
-    name
-    description
+    title
+    content
+    price
+    rating
   }
 }
 `;

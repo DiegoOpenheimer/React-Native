@@ -1,36 +1,42 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = `mutation CreateTodo(
-  $input: CreateTodoInput!
-  $condition: ModelTodoConditionInput
+export const createMyType = `mutation CreateMyType(
+  $input: CreateMyTypeInput!
+  $condition: ModelMyTypeConditionInput
 ) {
-  createTodo(input: $input, condition: $condition) {
+  createMyType(input: $input, condition: $condition) {
     id
-    name
-    description
+    title
+    content
+    price
+    rating
   }
 }
 `;
-export const updateTodo = `mutation UpdateTodo(
-  $input: UpdateTodoInput!
-  $condition: ModelTodoConditionInput
+export const updateMyType = `mutation UpdateMyType(
+  $input: UpdateMyTypeInput!
+  $condition: ModelMyTypeConditionInput
 ) {
-  updateTodo(input: $input, condition: $condition) {
+  updateMyType(input: $input, condition: $condition) {
     id
-    name
-    description
+    title
+    content
+    price
+    rating
   }
 }
 `;
-export const deleteTodo = `mutation DeleteTodo(
-  $input: DeleteTodoInput!
-  $condition: ModelTodoConditionInput
+export const deleteMyType = `mutation DeleteMyType(
+  $input: DeleteMyTypeInput!
+  $condition: ModelMyTypeConditionInput
 ) {
-  deleteTodo(input: $input, condition: $condition) {
+  deleteMyType(input: $input, condition: $condition) {
     id
-    name
-    description
+    title
+    content
+    price
+    rating
   }
 }
 `;
