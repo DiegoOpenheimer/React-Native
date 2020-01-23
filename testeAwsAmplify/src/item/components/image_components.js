@@ -44,7 +44,9 @@ function ImageComponent(props) {
     }
   }, [imageLoaded]);
   return (
-    <TouchableHighlight onLongPress={() => props.onLongPress(props.id)} >
+    <TouchableHighlight
+      onPress={() => props.onPress(props.path)}
+      onLongPress={() => props.onLongPress(props.id)}>
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Animated.Image
           onError={() => setImageLoaded(false)}
