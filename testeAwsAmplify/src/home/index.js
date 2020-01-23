@@ -6,6 +6,8 @@ import {
   Image,
   ProgressViewIOS,
   Text,
+  Platform,
+  ProgressBarAndroid,
 } from 'react-native';
 import {Hub, Auth, API, graphqlOperation, Storage, Cache} from 'aws-amplify';
 import ImagePicker from 'react-native-image-picker';
@@ -32,13 +34,7 @@ const Home = props => {
 
   async function loadData() {
     console.log((await Auth.currentSession()).getAccessToken().getJwtToken());
-    const todos = await API.get('firstRestApi', '/items/name', {
-      headers: {
-        Authorization: `Bearer ${(await Auth.currentSession())
-          .getAccessToken()
-          .getJwtToken()}`,
-      },
-    }).catch(console.log);
+    const todos = await API.get('firstRestApi', '/items').catch(console.log);
     console.log(todos);
   }
 
@@ -117,7 +113,10 @@ const Home = props => {
     if (currentProgress.success === false) {
       return <Text style={{textAlign: 'center'}}>Fail to upload image</Text>;
     }
-    return <ProgressViewIOS progress={currentProgress.value} />;
+    if (Platform.OS === 'ios') {
+      return <ProgressViewIOS progress={currentProgress.value} />;
+    }
+    return <ProgressBarAndroid progress={currentProgress.value} />
   }, []);
 
   return (
@@ -128,11 +127,14 @@ const Home = props => {
   );
 };
 
-Home.navigationOptions = {
+Home.navigationOptions = ({navigation}) => ({
   headerRight: () => {
-    return <Button onPress={() => Auth.signOut()} title="logout" />;
+    return <View style={{flexDirection: 'row'}}>
+      <Button onPress={() => navigation.navigate('Item')} title="Item" />
+      <Button onPress={() => Auth.signOut()} title="logout" />
+    </View>;
   },
-};
+});
 
 const styles = StyleSheet.create({
   container: {
