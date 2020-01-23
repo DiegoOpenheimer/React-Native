@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import {Storage} from 'aws-amplify';
 import {FlatList} from 'react-native-gesture-handler';
 import ImageComponent from './components/image_components';
@@ -16,13 +16,36 @@ export default function Item() {
       .catch(console.tron);
   }, []);
 
+  function removeImage(key) {
+    Storage.remove(key)
+      .then(() => setPhotos([...photos.filter(photo => photo.key !== key)]))
+      .catch(() => Alert.alert('Attention', ':-( Fail to remove the photo'));
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Lista S3</Text>
       <FlatList
         numColumns={2}
         data={photos}
-        renderItem={({item}) => <ImageComponent path={`${S3}${item.key}`} />}
+        renderItem={({item, index}) => (
+          <ImageComponent
+            path={`${S3}${item.key}`}
+            id={item.key}
+            lastImage={index === photos.length - 1 && photos.length % 2 !== 0}
+            onLongPress={key => {
+              Alert.alert(
+                'Attention',
+                'Do you really want to remove the image?',
+                [
+                  {text: 'Cancelar', style: 'cancel'},
+                  {text: 'Ok', onPress: () => removeImage(key)},
+                ],
+              );
+              console.tron('HANDLER COMMAND: ', key);
+            }}
+          />
+        )}
         keyExtractor={item => item.key}
       />
     </View>
@@ -33,10 +56,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
-    padding: 16,
+    paddingTop: 16,
   },
   text: {
     textAlign: 'center',
+    marginBottom: 16,
   },
   image: {
     width: 300,

@@ -1,9 +1,20 @@
 import React, {useCallback} from 'react';
-import {Image, StyleSheet, View, ActivityIndicator, Text, Animated} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+  Animated,
+  Dimensions,
+  TouchableHighlight,
+} from 'react-native';
 
 function ImageComponent(props) {
   const [imageLoaded, setImageLoaded] = React.useState();
   const [opacity] = React.useState(new Animated.Value(0));
+
+  const styles = React.useMemo(() => createStyle(props), [props]);
 
   const handleLoad = useCallback(() => {
     if (imageLoaded) {
@@ -33,34 +44,38 @@ function ImageComponent(props) {
     }
   }, [imageLoaded]);
   return (
-    <View style={{flex: 1}}>
-      <Animated.Image
-        onError={() => setImageLoaded(false)}
-        onLoadStart={() => setImageLoaded(null)}
-        onLoadEnd={() => {
-          if (imageLoaded !== false) {
-            setImageLoaded(true);
-            Animated.timing(opacity, {
-              toValue: 1,
-              duration: 1000,
-            }).start();
-          }
-        }}
-        style={[styles.content, {opacity}]}
-        source={{uri: props.path}}
-      />
-      {handleLoad()}
-    </View>
+    <TouchableHighlight onLongPress={() => props.onLongPress(props.id)} >
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Animated.Image
+          onError={() => setImageLoaded(false)}
+          onLoadStart={() => setImageLoaded(null)}
+          onLoadEnd={() => {
+            if (imageLoaded !== false) {
+              setImageLoaded(true);
+              Animated.timing(opacity, {
+                toValue: 1,
+                duration: 1000,
+              }).start();
+            }
+          }}
+          style={[styles.content, {opacity}]}
+          source={{uri: props.path}}
+        />
+        {handleLoad()}
+      </View>
+    </TouchableHighlight>
   );
 }
 
-const styles = StyleSheet.create({
-  content: {
-    width: 120,
-    height: 120,
-    resizeMode: 'cover',
-    borderRadius: 5,
-  },
-});
+const createStyle = props =>
+  StyleSheet.create({
+    content: {
+      width: props.lastImage
+        ? Dimensions.get('window').width
+        : Dimensions.get('window').width / 2,
+      height: Dimensions.get('window').width / 2,
+      resizeMode: 'cover',
+    },
+  });
 
 export default React.memo(ImageComponent);

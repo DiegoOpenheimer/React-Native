@@ -15,7 +15,7 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-import {Auth, Hub, API} from 'aws-amplify';
+import {Auth, Hub} from 'aws-amplify';
 import {useHeaderHeight} from 'react-navigation-stack';
 import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
 import jwtDecode from 'jwt-decode';
@@ -197,19 +197,9 @@ const Login = props => {
             onLoginFinished={signWithFacebook}
             onLogoutFinished={() => console.log('logout.')}
           />
-
           <Button
             title="create account"
             onPress={() => props.navigation.navigate('Account')}
-          />
-          <Button
-            title="31231231"
-            onPress={async () => {
-              const todos = await API.get('firstRestApi', '/items').catch(
-                console.log,
-              );
-              console.log(todos);
-            }}
           />
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

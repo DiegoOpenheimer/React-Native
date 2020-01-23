@@ -10,6 +10,7 @@ GoogleSignin.configure({
     '98028159315-3a6ia77dthq8rki2u1ldr1c8nq25jpdh.apps.googleusercontent.com',
 });
 
+console.tron = console.log;
 if (__DEV__) {
   console.tron = Reactotron.log;
   Reactotron.useReactNative().connect();
