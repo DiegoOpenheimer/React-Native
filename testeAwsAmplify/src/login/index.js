@@ -186,6 +186,11 @@ const Login = props => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => signInWithFedered()}
+            style={[styles.buttonSignIn, styles.btnGoogle]}>
+            <Text style={[styles.alignText, styles.textBtnColor]}>HOST UI</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => signInWithFedered('Facebook')}
             style={styles.buttonSignIn}>
             <Text style={[styles.alignText, styles.textBtnColor]}>
