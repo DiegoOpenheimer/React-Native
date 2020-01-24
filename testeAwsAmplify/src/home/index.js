@@ -51,8 +51,8 @@ const Home = props => {
         });
       },
     })
-      .then(() => setProgress({...progress, success: true}))
-      .catch(() => setProgress({...progress, success: false}));
+      .then(() => setProgress({...progress, success: true, value: 0}))
+      .catch(() => setProgress({...progress, success: false, value: 0}));
   }
 
   function choosePhoto() {
