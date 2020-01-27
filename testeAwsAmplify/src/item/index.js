@@ -13,7 +13,7 @@ import ImageComponent from './components/image_components';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 const S3 =
-  'https://amplifyteste41154c1604ac413989a097887f699ef9104442-test.s3.amazonaws.com/public/';
+  'https://aws344e72d2d32348ed9b6886b646982428150027-test.s3.amazonaws.com/public/';
 
 export default function Item() {
   const [photos, setPhotos] = React.useState([]);

@@ -9,17 +9,14 @@ import {
   Platform,
   ProgressBarAndroid,
 } from 'react-native';
-import {Hub, Auth, API, graphqlOperation, Storage, Cache} from 'aws-amplify';
+import {Hub, Auth, Storage} from 'aws-amplify';
 import ImagePicker from 'react-native-image-picker';
-
-import * as queries from '../graphql/queries';
 
 const Home = props => {
   const [image, setImage] = useState();
   const [progress, setProgress] = useState({value: 0, success: undefined});
 
   useEffect(() => {
-    (async () => console.log(await Cache.getItem('federatedInfo')))();
     const listenAuth = value => {
       console.log(value?.payload);
       if (value?.payload.event === 'signOut') {
@@ -27,17 +24,9 @@ const Home = props => {
       }
     };
     Hub.listen('auth', listenAuth);
-    loadData();
     return () => Hub.remove('auth', listenAuth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  async function loadData() {
-    const todos = await API.graphql(
-      graphqlOperation(queries.listMyTypes),
-    ).catch(console.tron);
-    console.tron(todos);
-  }
 
   function saveStorage(key, content, config) {
     Storage.put(key, content, {
@@ -126,6 +115,8 @@ const Home = props => {
     <View style={styles.container}>
       <Button title="Save a file in storage" onPress={choosePhoto} />
       {handlePhoto()}
+      <Button title="New Post" onPress={_ => props.navigation.navigate('Post')} />
+      <Button title="Posts" onPress={_ => props.navigation.navigate('Post')} />
     </View>
   );
 };
@@ -134,7 +125,7 @@ Home.navigationOptions = ({navigation}) => ({
   headerRight: () => {
     return (
       <View style={{flexDirection: 'row'}}>
-        <Button onPress={() => navigation.navigate('Item')} title="Item" />
+        <Button onPress={() => navigation.navigate('Item')} title="Photos" />
         <Button onPress={() => Auth.signOut()} title="logout" />
       </View>
     );

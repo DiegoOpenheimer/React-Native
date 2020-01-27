@@ -29,7 +29,7 @@ import {
 const Login = props => {
   const [user, setUser] = useState({email: '', password: ''});
   useEffect(() => {
-    const execute = () => {
+    const execute = async () => {
       Auth.currentAuthenticatedUser()
         .then(currentUser => {
           console.log('USER: ', currentUser);

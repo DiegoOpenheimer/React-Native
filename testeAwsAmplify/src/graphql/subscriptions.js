@@ -1,33 +1,87 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateMyType = `subscription OnCreateMyType {
-  onCreateMyType {
+export const onCreatePost = `subscription OnCreatePost {
+  onCreatePost {
     id
     title
-    content
-    price
-    rating
+    comments {
+      items {
+        id
+        content
+      }
+      nextToken
+    }
   }
 }
 `;
-export const onUpdateMyType = `subscription OnUpdateMyType {
-  onUpdateMyType {
+export const onUpdatePost = `subscription OnUpdatePost {
+  onUpdatePost {
     id
     title
-    content
-    price
-    rating
+    comments {
+      items {
+        id
+        content
+      }
+      nextToken
+    }
   }
 }
 `;
-export const onDeleteMyType = `subscription OnDeleteMyType {
-  onDeleteMyType {
+export const onDeletePost = `subscription OnDeletePost {
+  onDeletePost {
     id
     title
+    comments {
+      items {
+        id
+        content
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const onCreateComment = `subscription OnCreateComment {
+  onCreateComment {
+    id
     content
-    price
-    rating
+    post {
+      id
+      title
+      comments {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const onUpdateComment = `subscription OnUpdateComment {
+  onUpdateComment {
+    id
+    content
+    post {
+      id
+      title
+      comments {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const onDeleteComment = `subscription OnDeleteComment {
+  onDeleteComment {
+    id
+    content
+    post {
+      id
+      title
+      comments {
+        nextToken
+      }
+    }
   }
 }
 `;

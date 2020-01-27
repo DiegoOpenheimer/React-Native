@@ -1,42 +1,105 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createMyType = `mutation CreateMyType(
-  $input: CreateMyTypeInput!
-  $condition: ModelMyTypeConditionInput
+export const createPost = `mutation CreatePost(
+  $input: CreatePostInput!
+  $condition: ModelPostConditionInput
 ) {
-  createMyType(input: $input, condition: $condition) {
+  createPost(input: $input, condition: $condition) {
     id
     title
-    content
-    price
-    rating
+    comments {
+      items {
+        id
+        content
+      }
+      nextToken
+    }
   }
 }
 `;
-export const updateMyType = `mutation UpdateMyType(
-  $input: UpdateMyTypeInput!
-  $condition: ModelMyTypeConditionInput
+export const updatePost = `mutation UpdatePost(
+  $input: UpdatePostInput!
+  $condition: ModelPostConditionInput
 ) {
-  updateMyType(input: $input, condition: $condition) {
+  updatePost(input: $input, condition: $condition) {
     id
     title
-    content
-    price
-    rating
+    comments {
+      items {
+        id
+        content
+      }
+      nextToken
+    }
   }
 }
 `;
-export const deleteMyType = `mutation DeleteMyType(
-  $input: DeleteMyTypeInput!
-  $condition: ModelMyTypeConditionInput
+export const deletePost = `mutation DeletePost(
+  $input: DeletePostInput!
+  $condition: ModelPostConditionInput
 ) {
-  deleteMyType(input: $input, condition: $condition) {
+  deletePost(input: $input, condition: $condition) {
     id
     title
+    comments {
+      items {
+        id
+        content
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const createComment = `mutation CreateComment(
+  $input: CreateCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  createComment(input: $input, condition: $condition) {
+    id
     content
-    price
-    rating
+    post {
+      id
+      title
+      comments {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const updateComment = `mutation UpdateComment(
+  $input: UpdateCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  updateComment(input: $input, condition: $condition) {
+    id
+    content
+    post {
+      id
+      title
+      comments {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const deleteComment = `mutation DeleteComment(
+  $input: DeleteCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  deleteComment(input: $input, condition: $condition) {
+    id
+    content
+    post {
+      id
+      title
+      comments {
+        nextToken
+      }
+    }
   }
 }
 `;
