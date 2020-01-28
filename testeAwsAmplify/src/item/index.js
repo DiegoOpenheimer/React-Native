@@ -6,9 +6,10 @@ import {
   Alert,
   Modal,
   ActivityIndicator,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {Storage} from 'aws-amplify';
-import {FlatList} from 'react-native-gesture-handler';
 import ImageComponent from './components/image_components';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
@@ -66,14 +67,21 @@ export default function Item() {
         )}
         keyExtractor={item => item.key}
       />
-      <Modal visible={visibleModal.visible}>
+      <Modal animationType="fade" visible={visibleModal.visible}>
         <ImageViewer
+          glideAlways
+          animationType="fade"
           loadingRender={() => <ActivityIndicator />}
           imageUrls={[visibleModal.image]}
-          onClick={() =>
-            setVisibleModal({...visibleModal, visible: false, image: null})
-          }
         />
+        <View style={styles.contentBtnClose}>
+          <TouchableOpacity
+            onPress={() =>
+              setVisibleModal({...visibleModal, visible: false, image: null})
+            }>
+            <Text style={styles.btnCloseModal}>Close</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
     </View>
   );
@@ -93,5 +101,14 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: 'contain',
+  },
+  btnCloseModal: {
+    color: '#FFF',
+    fontSize: 18,
+  },
+  contentBtnClose: {
+    position: 'absolute',
+    top: 16,
+    right: 8,
   },
 });
