@@ -115,8 +115,11 @@ const Home = props => {
     <View style={styles.container}>
       <Button title="Save a file in storage" onPress={choosePhoto} />
       {handlePhoto()}
-      <Button title="New Post" onPress={_ => props.navigation.navigate('Post')} />
-      <Button title="Posts" onPress={_ => props.navigation.navigate('Post')} />
+      <Button
+        title="New Post"
+        onPress={_ => props.navigation.navigate('Post')}
+      />
+      <Button title="Posts" onPress={_ => props.navigation.navigate('Posts')} />
     </View>
   );
 };
