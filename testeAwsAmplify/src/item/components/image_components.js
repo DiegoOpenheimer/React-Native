@@ -43,6 +43,7 @@ function ImageComponent(props) {
       );
     }
   }, [imageLoaded]);
+
   return (
     <TouchableHighlight
       onPress={() => props.onPress(props.path)}
