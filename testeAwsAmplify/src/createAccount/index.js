@@ -9,6 +9,7 @@ import {
   View,
   Alert,
   Button,
+  Platform,
 } from 'react-native';
 import {Auth} from 'aws-amplify';
 
@@ -39,7 +40,10 @@ export default function Account({navigation}) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.OS === 'android' ? -200 : 0}>
         <View>
           <Text style={styles.title}>Create Account</Text>
         </View>
