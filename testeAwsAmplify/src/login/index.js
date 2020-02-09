@@ -197,11 +197,6 @@ const Login = props => {
               Facebook HOST UI
             </Text>
           </TouchableOpacity>
-          <LoginButton
-            style={{width: '100%', padding: 16}}
-            onLoginFinished={signWithFacebook}
-            onLogoutFinished={() => console.log('logout.')}
-          />
           <Button
             title="create account"
             onPress={() => props.navigation.navigate('Account')}
