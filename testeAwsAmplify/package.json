@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "pre-commit": "npm run lint && npm test",
-    "pre-push": "npm run lint && npm test",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
@@ -53,5 +51,11 @@
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test",
+      "pre-push": "npm run lint && npm test",
+    }
   }
 }

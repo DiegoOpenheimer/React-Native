@@ -16,7 +16,23 @@ if (__DEV__) {
   Reactotron.useReactNative().connect();
 }
 
-AWS.configure(awsConfiguration);
+AWS.configure({
+  ...awsConfiguration,
+  oauth: {
+    domain: 'auth-test-diego.auth.us-east-1.amazoncognito.com',
+    scope: [
+      'phone',
+      'email',
+      'profile',
+      'openid',
+      'aws.cognito.signin.user.admin',
+    ],
+    redirectSignIn: 'myapp://',
+    redirectSignOut: 'myapp://',
+    responseType: 'code',
+  },
+});
+// AWS.Logger.LOG_LEVEL = 'DEBUG';
 
 const App = () => {
   return <Navigator />;
