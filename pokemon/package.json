@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "firebase": "^4.8.2",
     "pokedex-promise-v2": "^3.1.1",
     "react": "16.6.0-alpha.8af6728",
